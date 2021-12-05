@@ -31,7 +31,7 @@ void loop()
  delay(3000);
  */
   letterToColor();
-  readColorInfo();
+  //readColorInfo();
   
 }
 void letterToColor(){
@@ -43,11 +43,24 @@ void letterToColor(){
      int blueColor = numberForBlue(letter);
      int greenColor = numberForGreen(letter);
      int duration = timeForLetter(letter);
+     
      analogWrite(LEDR, redColor); //De 0-255 para color
+
+     Serial.println("Rojo es: ");
+     Serial.println(redColor);
+     
      analogWrite(LEDG, greenColor);
+
+     Serial.println("Verde es: ");
+     Serial.println(greenColor);
+     
      analogWrite(LEDB, blueColor);
+     
+     Serial.println("Azul es: ");
+     Serial.println(blueColor);
      delay(duration);
-     Serial.write("Debio cambiar el color");
+     
+     Serial.println("Debio cambiar el color");
      
  }
 
