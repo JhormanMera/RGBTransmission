@@ -30,8 +30,32 @@ void loop()
  analogWrite(LEDB, 0);
  delay(3000);
  */
-  uint16_t clear, red, green, blue;
+  letterToColor();
+  readColorInfo();
+  
+}
+void letterToColor(){
+  
+  while(Serial.available() > 0) {
+     String letter = Serial.readString(); 
+     Serial.print(letter);
+     int redColor = numberForRed(letter);
+     int blueColor = numberForBlue(letter);
+     int greenColor = numberForGreen(letter);
+     int duration = timeForLetter(letter);
+     analogWrite(LEDR, redColor); //De 0-255 para color
+     analogWrite(LEDG, greenColor);
+     analogWrite(LEDB, blueColor);
+     delay(duration);
+     Serial.write("Debio cambiar el color");
+     
+ }
 
+  
+}
+void readColorInfo(){
+  
+ uint16_t clear, red, green, blue;
   tcs.setInterrupt(false);
   delay(50); // Cuesta 50ms capturar el color
   tcs.getRawData(&red, &green, &blue, &clear);
@@ -60,7 +84,7 @@ void loop()
 
   // Convertir a hue, saturation, value
   double hue, saturation, value;
-ColorConverter::RgbToHsv(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b), hue, saturation, value);
+  ColorConverter::RgbToHsv(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b), hue, saturation, value);
   delay(1000);
   Serial.println("");
   Serial.print("R byte = ");Serial.println(String(r));
@@ -69,4 +93,73 @@ ColorConverter::RgbToHsv(static_cast<uint8_t>(r), static_cast<uint8_t>(g), stati
    Serial.print("Clear = ");Serial.println(String(sum));
   Serial.print("Saturation = ");Serial.println(String(blue));
   Serial.println("*************************");
+}
+
+
+int numberForBlue(String letter){
+  
+      if(letter=="a"){
+        int toReturn = 0;
+        
+      return toReturn;;
+      }else if(letter=="e"){
+      return 250;  
+      }else{
+      return 0;  
+      }
+      
+}
+int numberForGreen(String letter){
+  
+    if(letter=="a"){
+      return 0;
+      }else if(letter=="e"){
+      return 0;  
+      }else{
+      return 250;  
+      }
+
+    
+}
+  
+
+
+int numberForLetter(String letter){
+
+    if(letter=="a"){
+      return 600;
+      }else if(letter=="e"){
+      return 200;  
+      }else{
+      return 400;  
+      }
+
+    
+  
+  }
+
+int timeForLetter(String letter){
+
+      //Serial.println("Entro");
+    if(letter=="a"){
+      return 2000;
+      }else if(letter=="e"){
+      return 4000;  
+      }else{
+      return 6000;  
+      }
+  
+  
+  
+  }
+int numberForRed(String letter){
+  
+    if(letter=="a"){
+      return 250;
+      }else if(letter=="e"){
+      return 150;  
+      }else{
+      return 0;  
+      }
+  
 }
