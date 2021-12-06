@@ -7,11 +7,9 @@ int OUTPUTLEDB = 10;
 float valueLedR;
 float valueLedG;
 float valueLedB;
-uint32_t sum;
 char currentLetter=' ';
 char compareLetter=' ';
 boolean emitter;
-uint16_t clear, red, green, blue;
 
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_1X);
 
@@ -64,10 +62,15 @@ void letterToColor(){
 }
 
 void readColor(){
+  uint32_t sum;
+  uint16_t clear, red, green, blue;
   tcs.setInterrupt(false);
   delay(50); // Cuesta 50ms capturar el color
   tcs.getRawData(&red, &green, &blue, &clear);
   tcs.setInterrupt(true);
+  // Hacer rgb medición relativa y escalar rgb a bytes
+  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
+  /*
   // Hacer rgb medición relativa
   sum = clear;
   valueLedR = red; valueLedR /= sum;
@@ -75,20 +78,21 @@ void readColor(){
   valueLedB = blue; valueLedB /= sum;
   // Escalar rgb a bytes
   valueLedR*= 255; valueLedG *= 255; valueLedB *= 255;
-
+*/
+/*
   // Convertir a hue, saturation, value
   double hue, saturation, value;
   ColorConverter::RgbToHsv(static_cast<uint8_t>(valueLedR), static_cast<uint8_t>(valueLedG), static_cast<uint8_t>(valueLedB), hue, saturation, value);
+  */
   readLetter();
   delay(1000);
   Serial.println("");
   Serial.print("R byte = ");Serial.println(String(valueLedR));
   Serial.print("G byte= ");Serial.println(String(valueLedG));
   Serial.print("B byte= ");Serial.println(String(valueLedB));
-   Serial.print("Clear = ");Serial.println(String(sum));
-  Serial.print("Saturation = ");Serial.println(String(saturation));
+  Serial.print("Clear = ");Serial.println(String(sum));
+  //Serial.print("Saturation = ");Serial.println(String(saturation));
   Serial.println("*************************");
-  
 }
 
 void sendLetter(){
