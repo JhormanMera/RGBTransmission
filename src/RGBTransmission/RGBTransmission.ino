@@ -39,15 +39,15 @@ void menu(){
 }
 
 void firstMenuOption(){
-  
+  //MODO CHAT
 }
 
 void secondMenuOption(){
-    letterToColor();
+    letterToColor();//BLOQUE DE INFO
 }
 
 void thirdMenuOption(){
-  
+  //ECO
 }
 
 void letterToColor(){
