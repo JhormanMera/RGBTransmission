@@ -1,178 +1,187 @@
 #include <ColorConverterLib.h>
 #include <Wire.h>
 #include "Adafruit_TCS34725.h"
-int LEDR = 11;  //Definimos las 3 salidas digitales PWM
-int LEDG = 9;
-int LEDB = 10;
+int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
+int OUTPUTLEDG = 9;
+int OUTPUTLEDB = 10;
+float valueLedR;
+float valueLedG;
+float valueLedB;
+uint32_t sum;
+char currentLetter=' ';
+char compareLetter=' ';
+boolean emitter;
+uint16_t clear, red, green, blue;
 
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_1X);
 
-void setup()
-{
-  
-  Serial.begin(9600);
- pinMode(LEDR,OUTPUT); // los pins digitales serán de salida
- pinMode(LEDG,OUTPUT);
- pinMode(LEDB,OUTPUT);
-
-  if (!tcs.begin())
-  {
+void setup(){
+ Serial.begin(9600);
+ pinMode(OUTPUTLEDR,OUTPUT); // los pins digitales serán de salida
+ pinMode(OUTPUTLEDG,OUTPUT);
+ pinMode(OUTPUTLEDB,OUTPUT);
+ 
+  if (!tcs.begin())  {//Verificamos la conexión del Sensor de color
     Serial.println("Error al iniciar TCS34725");
-    while (1) delay(1000);
+    while (!tcs.begin()) delay(1000);
   }
 }
 
-void loop()
-{
-  /*
-   analogWrite(LEDR, 255); //De 0-255 para color
- analogWrite(LEDG, 0);
- analogWrite(LEDB, 0);
- delay(3000);
- */
-  letterToColor();
-  //readColorInfo();
-  
-}
-void letterToColor(){
-  
-  while(Serial.available() > 0) {
-     String letter = Serial.readString(); 
-     Serial.print(letter);
-     int redColor = numberForRed(letter);
-     int blueColor = numberForBlue(letter);
-     int greenColor = numberForGreen(letter);
-     int duration = timeForLetter(letter);
-     
-     analogWrite(LEDR, redColor); //De 0-255 para color
-
-     Serial.println("Rojo es: ");
-     Serial.println(redColor);
-     
-     analogWrite(LEDG, greenColor);
-
-     Serial.println("Verde es: ");
-     Serial.println(greenColor);
-     
-     analogWrite(LEDB, blueColor);
-     
-     Serial.println("Azul es: ");
-     Serial.println(blueColor);
-     delay(duration);
-     
-     Serial.println("Debio cambiar el color");
-     
+void loop(){
+vector_color(255,255,255);   // bit en Inicio, durante 2 tiempos de reloj para dar inicio a la trama
+delay(46);                // espera de medio tiempo de reloj  
+vector_color(0,0,0);
+if (Serial.available() > 0){   // Solo si llegaron datos los lee y TX
+    currentLetter= Serial.read();    // Lee el mensaje que llega por el puerto serial
  }
+}
 
+void menu(){
+ if(currentLetter=='%'); firstMenuOption();
+ if(currentLetter=='&'); secondMenuOption();
+ if(currentLetter=='*'); thirdMenuOption();
+}
+
+void firstMenuOption(){
   
 }
-void readColorInfo(){
+
+void secondMenuOption(){
   
- uint16_t clear, red, green, blue;
+    letterToColor();
+
+}
+
+void thirdMenuOption(){
+  
+}
+
+void letterToColor(){
+ while(Serial.available() > 0) {
+      currentLetter = Serial.read(); //lee la letra del puerto serial
+      sendLetter(); // Transforma la letra en color
+ }
+}
+
+void readColor(){
   tcs.setInterrupt(false);
   delay(50); // Cuesta 50ms capturar el color
   tcs.getRawData(&red, &green, &blue, &clear);
   tcs.setInterrupt(true);
-
   // Hacer rgb medición relativa
-  uint32_t sum = clear;
-  float r, g, b;
- /*
-  Serial.println("*************************");
-  Serial.print("Red = ");Serial.println(String(red));
-  Serial.print("Green = ");Serial.println(String(green));
-  Serial.print("Blue = ");Serial.println(String(blue));
-  */
-  r = red; r /= sum;
-  g = green; g /= sum;
-  b = blue; b /= sum;
-  /*
-  Serial.println("");
-  Serial.print("R = ");Serial.println(String(r));
-  Serial.print("G = ");Serial.println(String(g));
-  Serial.print("B = ");Serial.println(String(b));
-  */
+  sum = clear;
+  valueLedR = red; valueLedR /= sum;
+  valueLedG = green; valueLedG /= sum;
+  valueLedB = blue; valueLedB /= sum;
   // Escalar rgb a bytes
-  r *= 255; g *= 255; b *= 255;
+  valueLedR*= 255; valueLedG *= 255; valueLedB *= 255;
 
   // Convertir a hue, saturation, value
   double hue, saturation, value;
-  ColorConverter::RgbToHsv(static_cast<uint8_t>(r), static_cast<uint8_t>(g), static_cast<uint8_t>(b), hue, saturation, value);
+  ColorConverter::RgbToHsv(static_cast<uint8_t>(valueLedR), static_cast<uint8_t>(valueLedG), static_cast<uint8_t>(valueLedB), hue, saturation, value);
+  readLetter();
   delay(1000);
   Serial.println("");
-  Serial.print("R byte = ");Serial.println(String(r));
-  Serial.print("G byte= ");Serial.println(String(g));
-  Serial.print("B byte= ");Serial.println(String(b));
+  Serial.print("R byte = ");Serial.println(String(valueLedR));
+  Serial.print("G byte= ");Serial.println(String(valueLedG));
+  Serial.print("B byte= ");Serial.println(String(valueLedB));
    Serial.print("Clear = ");Serial.println(String(sum));
-  Serial.print("Saturation = ");Serial.println(String(blue));
+  Serial.print("Saturation = ");Serial.println(String(saturation));
   Serial.println("*************************");
+  
 }
 
-
-int numberForBlue(String letter){
-  
-      if(letter=="a"){
-        int toReturn = 0;
-        
-      return toReturn;;
-      }else if(letter=="e"){
-      return 250;  
-      }else{
-      return 0;  
-      }
-      
+void sendLetter(){
+  //PREGUNTAR SI SE NECESITAN LAS TILDES Y LAS MAYÚSCULAS
+ if(currentLetter=='%') vector_color(0,0,0);
+ if(currentLetter=='&') vector_color(0,0,0); emitter = true;
+ if(currentLetter=='*') vector_color(0,0,0); emitter=true;
+ if(currentLetter=='a') vector_color(128,0,0);;
+ if(currentLetter=='b') vector_color(0,0,0);
+ if(currentLetter=='c') vector_color(0,0,0);
+ if(currentLetter=='d') vector_color(0,0,0);
+ if(currentLetter=='e') vector_color(0,0,0);
+ if(currentLetter=='f') vector_color(0,0,0);
+ if(currentLetter=='g') vector_color(0,0,0);   
+ if(currentLetter=='h') vector_color(0,0,0);
+ if(currentLetter=='i') vector_color(0,0,0);
+ if(currentLetter=='j') vector_color(0,0,0);
+ if(currentLetter=='k') vector_color(0,0,0);
+ if(currentLetter=='l') vector_color(0,0,0);
+ if(currentLetter=='m') vector_color(0,0,0);     
+ if(currentLetter=='n') vector_color(0,0,0);
+ if(currentLetter=='o') vector_color(0,0,0);
+ if(currentLetter=='p') vector_color(0,0,0);
+ if(currentLetter=='q') vector_color(0,0,0);
+ if(currentLetter=='r') vector_color(0,0,0);
+ if(currentLetter=='s') vector_color(0,0,0);
+ if(currentLetter=='t') vector_color(0,0,0);
+ if(currentLetter=='u') vector_color(0,0,0);
+ if(currentLetter=='v') vector_color(0,0,0);
+ if(currentLetter=='w') vector_color(0,0,0); 
+ if(currentLetter=='x') vector_color(0,0,0);         
+ if(currentLetter=='y') vector_color(0,0,0);
+ if(currentLetter=='z') vector_color(0,0,0);
+ if(currentLetter==' ') vector_color(0,0,0);
+ if(currentLetter=='.') vector_color(0,0,0);
+ if(currentLetter==',') vector_color(0,0,0);
+ if(currentLetter=='0') vector_color(0,0,0);
+ if(currentLetter=='1') vector_color(0,0,0);
+ if(currentLetter=='2') vector_color(0,0,0);
+ if(currentLetter=='3') vector_color(0,0,0);
+ if(currentLetter=='4') vector_color(0,0,0);
+ if(currentLetter=='5') vector_color(0,0,0);
+ if(currentLetter=='6') vector_color(0,0,0);
+ if(currentLetter=='7') vector_color(0,0,0);
+ if(currentLetter=='8') vector_color(0,0,0);
+ if(currentLetter=='9') vector_color(0,0,0);
 }
-int numberForGreen(String letter){
-  
-    if(letter=="a"){
-      return 0;
-      }else if(letter=="e"){
-      return 0;  
-      }else{
-      return 250;  
-      }
-
-    
+void readLetter(){
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("%"); compareLetter='%';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("&"); compareLetter='&'; emitter=false;
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("*"); compareLetter='*'; emitter=false;
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("a"); compareLetter='a';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("b"); compareLetter='b';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("c"); compareLetter='c';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("d"); compareLetter='d';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("e"); compareLetter='e';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("f"); compareLetter='f';
+    if ((valueLedR == 0) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("g"); compareLetter='g';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("h"); compareLetter='h';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("i"); compareLetter='i';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("j"); compareLetter='j';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("k"); compareLetter='k';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("l"); compareLetter='l';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("m"); compareLetter='m';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("n"); compareLetter='n';
+    if ((valueLedR == 0) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("o"); compareLetter='o';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("p"); compareLetter='p';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("q"); compareLetter='q';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("r"); compareLetter='r';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 0))  Serial.print("s"); compareLetter='s';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("t"); compareLetter='t';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("u"); compareLetter='u';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("v"); compareLetter='v';
+    if ((valueLedR == 1) && (valueLedG == 0) && (valueLedB == 1))  Serial.print("w"); compareLetter='w';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("x"); compareLetter='x';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("y"); compareLetter='y';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 0))  Serial.print("z"); compareLetter='z';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 0))  Serial.print(" "); compareLetter=' ';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(" "); compareLetter=' ';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("."); compareLetter='0';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='1';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='2';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='3';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='4';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='5';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='6';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='7';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='8';
+    if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='9';
 }
-  
 
-
-int numberForLetter(String letter){
-
-    if(letter=="a"){
-      return 600;
-      }else if(letter=="e"){
-      return 200;  
-      }else{
-      return 400;  
-      }
-
-    
-  
-  }
-
-int timeForLetter(String letter){
-
-      //Serial.println("Entro");
-    if(letter=="a"){
-      return 2000;
-      }else if(letter=="e"){
-      return 4000;  
-      }else{
-      return 6000;  
-      }
-  
-  
-  
-  }
-int numberForRed(String letter){
-  
-    if(letter=="a"){
-      return 250;
-      }else if(letter=="e"){
-      return 150;  
-      }else{
-      return 0;  
-      }
-  
+void vector_color(int red, int green, int blue){
+  analogWrite(OUTPUTLEDR, red);
+  analogWrite(OUTPUTLEDG, green);
+  analogWrite(OUTPUTLEDB, blue);
 }
