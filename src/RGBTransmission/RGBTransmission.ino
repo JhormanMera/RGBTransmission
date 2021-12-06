@@ -25,15 +25,14 @@ void setup(){
 }
 
 void loop(){
-uint32_t sum;
-  uint16_t clear, red, green, blue;
-  tcs.setInterrupt(false);
-  delay(24); // Cuesta 24ms capturar el color
-  tcs.getRawData(&red, &green, &blue, &clear);
-  tcs.setInterrupt(true);
-  // Hacer rgb medición relativa y escalar rgb a bytes
-  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
-  if(valueLedR==255 && valueLedG==255 && valueLedB==255); delay(24); readLetter();
+readColor();
+  if(valueLedR==255 && valueLedG==255 && valueLedB==255){
+    readColor();
+    do{
+    readLetter();
+    readColor();
+  }while(valueLedR!=255 && valueLedG!=255 && valueLedB!=255);
+  }
   Serial.println("");
   Serial.print("R byte = ");Serial.println(String(valueLedR));
   Serial.print("G byte= ");Serial.println(String(valueLedG));
@@ -44,13 +43,22 @@ uint32_t sum;
 
 
 }
-
+void readColor(){
+  uint32_t sum;
+  uint16_t clear, red, green, blue;
+  tcs.setInterrupt(false);
+  delay(24); // Cuesta 24ms capturar el color
+  tcs.getRawData(&red, &green, &blue, &clear);
+  tcs.setInterrupt(true);
+  // Hacer rgb medición relativa y escalar rgb a bytes
+  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
+}
 void menu(){
  if(currentLetter=='%'); firstMenuOption();
  if(currentLetter=='&'); secondMenuOption();
  if(currentLetter=='*'); thirdMenuOption();
 }
-
+/*
 void firstMenuOption(){
   
 }
@@ -62,7 +70,7 @@ void secondMenuOption(){
 void thirdMenuOption(){
   
 }
-
+*/
 void letterToColor(){
  while(Serial.available() > 0) {
       currentLetter = Serial.read(); //lee la letra del puerto serial
@@ -75,14 +83,14 @@ void sendLetter(){
   
   
   
-  }
+}
 
  void readLetter(){
     
     
     
     
-    }
+}
 
 /*
 void sendLetter(){
