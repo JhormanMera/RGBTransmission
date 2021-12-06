@@ -10,7 +10,7 @@ float valueLedB;
 char currentLetter=' ';
 char compareLetter=' ';
 boolean emitter;
-
+//CAMBIAR LOS VALORES DE LOS VECTORES DE COLOR
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_1X);
 
 void setup(){
@@ -18,7 +18,6 @@ void setup(){
  pinMode(OUTPUTLEDR,OUTPUT); // los pins digitales serán de salida
  pinMode(OUTPUTLEDG,OUTPUT);
  pinMode(OUTPUTLEDB,OUTPUT);
- 
   if (!tcs.begin())  {//Verificamos la conexión del Sensor de color
     Serial.println("Error al iniciar TCS34725");
     while (!tcs.begin()) delay(1000);
@@ -29,9 +28,8 @@ void loop(){
 vector_color(255,255,255);   // bit en Inicio, durante 2 tiempos de reloj para dar inicio a la trama
 delay(46);                // espera de medio tiempo de reloj  
 vector_color(0,0,0);
-if (Serial.available() > 0){   // Solo si llegaron datos los lee y TX
-    currentLetter= Serial.read();    // Lee el mensaje que llega por el puerto serial
- }
+
+
 }
 
 void menu(){
@@ -45,9 +43,7 @@ void firstMenuOption(){
 }
 
 void secondMenuOption(){
-  
     letterToColor();
-
 }
 
 void thirdMenuOption(){
