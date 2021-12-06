@@ -2,8 +2,8 @@
 #include <Wire.h>
 #include "Adafruit_TCS34725.h"
 int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
-int OUTPUTLEDG = 9;
 int OUTPUTLEDB = 10;
+int OUTPUTLEDG = 9;
 float valueLedR;
 float valueLedG;
 float valueLedB;
@@ -25,9 +25,22 @@ void setup(){
 }
 
 void loop(){
-vector_color(255,255,255);   // bit en Inicio, durante 2 tiempos de reloj para dar inicio a la trama
-delay(46);                // espera de medio tiempo de reloj  
-vector_color(0,0,0);
+uint32_t sum;
+  uint16_t clear, red, green, blue;
+  tcs.setInterrupt(false);
+  delay(24); // Cuesta 24ms capturar el color
+  tcs.getRawData(&red, &green, &blue, &clear);
+  tcs.setInterrupt(true);
+  // Hacer rgb medición relativa y escalar rgb a bytes
+  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
+  if(valueLedR==255 && valueLedG==255 && valueLedB==255); delay(24); readLetter();
+  Serial.println("");
+  Serial.print("R byte = ");Serial.println(String(valueLedR));
+  Serial.print("G byte= ");Serial.println(String(valueLedG));
+  Serial.print("B byte= ");Serial.println(String(valueLedB));
+  Serial.print("Clear = ");Serial.println(String(sum));
+  //Serial.print("Saturation = ");Serial.println(String(saturation));
+  Serial.println("*************************");
 
 
 }
@@ -39,15 +52,15 @@ void menu(){
 }
 
 void firstMenuOption(){
-  //MODO CHAT
+  
 }
 
 void secondMenuOption(){
-    letterToColor();//BLOQUE DE INFO
+    letterToColor();
 }
 
 void thirdMenuOption(){
-  //ECO
+  
 }
 
 void letterToColor(){
@@ -57,40 +70,21 @@ void letterToColor(){
  }
 }
 
-void readColor(){
-  uint32_t sum;
-  uint16_t clear, red, green, blue;
-  tcs.setInterrupt(false);
-  delay(50); // Cuesta 50ms capturar el color
-  tcs.getRawData(&red, &green, &blue, &clear);
-  tcs.setInterrupt(true);
-  // Hacer rgb medición relativa y escalar rgb a bytes
-  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
-  /*
-  // Hacer rgb medición relativa
-  sum = clear;
-  valueLedR = red; valueLedR /= sum;
-  valueLedG = green; valueLedG /= sum;
-  valueLedB = blue; valueLedB /= sum;
-  // Escalar rgb a bytes
-  valueLedR*= 255; valueLedG *= 255; valueLedB *= 255;
-*/
-/*
-  // Convertir a hue, saturation, value
-  double hue, saturation, value;
-  ColorConverter::RgbToHsv(static_cast<uint8_t>(valueLedR), static_cast<uint8_t>(valueLedG), static_cast<uint8_t>(valueLedB), hue, saturation, value);
-  */
-  readLetter();
-  delay(1000);
-  Serial.println("");
-  Serial.print("R byte = ");Serial.println(String(valueLedR));
-  Serial.print("G byte= ");Serial.println(String(valueLedG));
-  Serial.print("B byte= ");Serial.println(String(valueLedB));
-  Serial.print("Clear = ");Serial.println(String(sum));
-  //Serial.print("Saturation = ");Serial.println(String(saturation));
-  Serial.println("*************************");
-}
+void sendLetter(){
+  if(currentLetter=='A'); representation_color(2);representation_color(1);representation_color(1);representation_color(2);
+  
+  
+  
+  }
 
+ void readLetter(){
+    
+    
+    
+    
+    }
+
+/*
 void sendLetter(){
   //PREGUNTAR SI SE NECESITAN LAS TILDES Y LAS MAYÚSCULAS
  if(currentLetter=='%') vector_color(0,0,0);
@@ -109,7 +103,7 @@ void sendLetter(){
  if(currentLetter=='k') vector_color(0,0,0);
  if(currentLetter=='l') vector_color(0,0,0);
  if(currentLetter=='m') vector_color(0,0,0);     
- if(currentLetter=='n') vector_color(0,0,0);
+ irepresentation_color(2);f(currentLetter=='n') vector_color(0,0,0);
  if(currentLetter=='o') vector_color(0,0,0);
  if(currentLetter=='p') vector_color(0,0,0);
  if(currentLetter=='q') vector_color(0,0,0);
@@ -135,8 +129,10 @@ void sendLetter(){
  if(currentLetter=='7') vector_color(0,0,0);
  if(currentLetter=='8') vector_color(0,0,0);
  if(currentLetter=='9') vector_color(0,0,0);
-}
-void readLetter(){
+}*/
+
+
+/*void readLetter(){
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("%"); compareLetter='%';
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("&"); compareLetter='&'; emitter=false;
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print("*"); compareLetter='*'; emitter=false;
@@ -178,8 +174,14 @@ void readLetter(){
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='7';
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='8';
     if ((valueLedR == 1) && (valueLedG == 1) && (valueLedB == 1))  Serial.print(","); compareLetter='9';
-}
+}*/
 
+void representation_color(int point){
+  if (point==1); vector_color(255,0,0);
+  if (point==2); vector_color(0,0,255);
+  if (point==3); vector_color(0,255,0);
+  if (point==4); vector_color(127,0,0);
+}
 void vector_color(int red, int green, int blue){
   analogWrite(OUTPUTLEDR, red);
   analogWrite(OUTPUTLEDG, green);
