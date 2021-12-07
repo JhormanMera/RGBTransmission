@@ -2,13 +2,11 @@
 int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
 int OUTPUTLEDB = 10;
 int OUTPUTLEDG = 9;
-float valueLedR;
-float valueLedG;
-float valueLedB;
+float valueLedR,valueLedG,valueLedB;
 char currentLetter=' ';
 char compareLetter=' ';
 String binaryValue;
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_24MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_614MS, TCS34725_GAIN_1X);
 
 void setup(){
  Serial.begin(9600);
@@ -23,33 +21,54 @@ void setup(){
 }
 
 void loop(){
- binaryValue=" ";
+ binaryValue = "";
 readColor();
-  if(valueLedR==255 && valueLedG==255 && valueLedB==255){
-    readColor();
-    do{
+Serial.println("loop");
+ Serial.println(valueLedR);
+ Serial.println(valueLedG);
+ Serial.println(valueLedB);
+    while(valueLedR!=0 && valueLedG!=0 && valueLedB!=0){
+    Serial.println("Entraste Campeoooon");
     readVectorColor(valueLedR,valueLedG,valueLedB);
     readColor();
-  }while(valueLedR!=127 && valueLedG!=127 && valueLedB!=127);
-  readLetter();
+  }
+  if(binaryValue!=""){
+    readLetter();
+  Serial.println("Se supone que ya pasó por el read letter");
+  binaryValue = "";
   }
 }
 void readColor(){
   uint32_t sum;
   uint16_t clear, red, green, blue;
   tcs.setInterrupt(false);
-  delay(24); // Cuesta 24ms capturar el color
+  delay(614); // Cuesta 50ms capturar el color
   tcs.getRawData(&red, &green, &blue, &clear);
   tcs.setInterrupt(true);
   // Hacer rgb medición relativa y escalar rgb a bytes
   tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
-    Serial.println("");
-  Serial.print("R byte = ");Serial.println(String(valueLedR));
-  Serial.print("G byte= ");Serial.println(String(valueLedG));
-  Serial.print("B byte= ");Serial.println(String(valueLedB));
-  Serial.print("Clear = ");Serial.println(String(clear));
-  //Serial.print("Saturation = ");Serial.println(String(saturation));
-  Serial.println("*************************");
+  Serial.println("******************");
+Serial.println("readColor");
+ Serial.println(valueLedR);
+ Serial.println(valueLedG);
+ Serial.println(valueLedB);
+  valueLedR= comparate_interval(valueLedR);
+   valueLedG= comparate_interval(valueLedG);
+   valueLedB= comparate_interval(valueLedB);
+}
+float comparate_interval(float value){
+  float comp1=255.00;
+  float comp2= 127.00;
+  float comp3 = 0.00;
+  float ret;
+  if(value>=comp3 && value<(comp2*0.75)){
+    ret=comp3;
+  }else if(value>=(comp2*0.75) && value<(comp1*0.7)){
+    ret=comp2;
+  }else if(value>=(comp1*0.7) && value<=(comp1*1.5)){
+    ret=comp1;
+  }
+  return ret;
 }
 /*
 void menu(){
@@ -86,21 +105,24 @@ void sendLetter(){
   
 }
 
-  void readVectorColor(int pos1,int pos2, int pos3){
+  void readVectorColor(float pos1,float pos2, float pos3){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
 // 11 4 (127,0,0)
-  if((pos1==255)&&(pos2==0)&&(pos3==0)); binaryValue+= "00";
-  if((pos1==0)&&(pos2==0)&&(pos3==255)); binaryValue+= "01";
-  if((pos1==0)&&(pos2==255)&&(pos3==0)); binaryValue+= "10";
-  if((pos1==127)&&(pos2==0)&&(pos3==0)); binaryValue+= "11";
+  float comp1=255.00;
+  float comp2= 127.00;
+  float comp3 = 0.00;
+  if((pos1==comp1)&&(pos2==comp3)&&(pos3==comp3)); binaryValue+= "00";
+  if((pos1==comp3)&&(pos2==comp3)&&(pos3==comp1)); binaryValue+= "01";
+  if((pos1==comp3)&&(pos2==comp1)&&(pos3==comp3)); binaryValue+= "10";
+  if((pos1==comp2)&&(pos2==comp3)&&(pos3==comp3)); binaryValue+= "11";
   }
 
 /*
 void sendLetter(){
   //PREGUNTAR SI SE NECESITAN LAS TILDES Y LAS MAYÚSCULAS
- if(currentLetter=='%') vector_color(0,0,0);
+ if(currentLetter=='%') vector_color(comp3,comp3,0);
  if(currentLetter=='&') vector_color(0,0,0);
  if(currentLetter=='*') vector_color(0,0,0);
  if(currentLetter=='a') vector_color(128,0,0);
@@ -146,6 +168,7 @@ void sendLetter(){
 
 
 void readLetter(){
+  Serial.print(binaryValue);
     //if ()  Serial.print("%"); compareLetter='%';
     //if ()  Serial.print("&"); compareLetter='&';
     //if ()  Serial.print("*"); compareLetter='*';
