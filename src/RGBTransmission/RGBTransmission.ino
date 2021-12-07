@@ -97,6 +97,10 @@ void letterToColor(){
 
 
 void sendLetter(){
+  // 00 1 (255,0,0)
+// 01 2 (0,0,255)
+// 10 3 (0,255,0)
+// 11 4 (127,0,0)
   if(currentLetter=='A'); representation_color(2);representation_color(1);representation_color(1);representation_color(2);
   
   
@@ -213,6 +217,10 @@ void readLetter(){
 }
 
 void representation_color(int point){
+// 00 1 (255,0,0)
+// 01 2 (0,0,255)
+// 10 3 (0,255,0)
+// 11 4 (127,0,0)
   if (point==1); vector_color(255,0,0); 
   if (point==2); vector_color(0,0,255);
   if (point==3); vector_color(0,255,0);
