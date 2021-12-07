@@ -6,7 +6,7 @@ float valueLedR,valueLedG,valueLedB;
 char currentLetter=' ';
 char compareLetter=' ';
 String binaryValue;
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_614MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_1X);
 
 void setup(){
  Serial.begin(9600);
@@ -39,16 +39,13 @@ Serial.println("loop");
   }
 }
 void readColor(){
-  uint32_t sum;
-  uint16_t clear, red, green, blue;
   tcs.setInterrupt(false);
-  delay(614); // Cuesta 50ms capturar el color
-  tcs.getRawData(&red, &green, &blue, &clear);
-  tcs.setInterrupt(true);
   // Hacer rgb medición relativa y escalar rgb a bytes
-  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);
-  Serial.println("******************");
-Serial.println("readColor");
+  tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);//Get RGB Tiene internamente un método de GetRawData y en Get Raw Data ya está el delay, no es necesario un delay externo
+  tcs.setInterrupt(true);
+
+ Serial.println("******************");
+ Serial.println("readColor");
  Serial.println(valueLedR);
  Serial.println(valueLedG);
  Serial.println(valueLedB);
@@ -56,6 +53,7 @@ Serial.println("readColor");
    valueLedG= comparate_interval(valueLedG);
    valueLedB= comparate_interval(valueLedB);
 }
+
 float comparate_interval(float value){
   float comp1=255.00;
   float comp2= 127.00;
