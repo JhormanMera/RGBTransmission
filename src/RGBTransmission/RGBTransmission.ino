@@ -97,12 +97,52 @@ void letterToColor(){
 
 
 void sendLetter(){
-  // 00 1 (255,0,0)
+// 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
 // 11 4 (127,0,0)
-  if(currentLetter=='A'); representation_color(2);representation_color(1);representation_color(1);representation_color(2);
-  
+ if(currentLetter=='%') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='&') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='*') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='a'); representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='b') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='c') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='d') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='e') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='f') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='g') representation_color(2);representation_color(3);representation_color(1);representation_color(2);   
+ if(currentLetter=='h') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='i') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='j') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='k') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='l') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='m') representation_color(2);representation_color(3);representation_color(1);representation_color(2);     
+ if(currentLetter=='n') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='o') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='p') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='q') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='r') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='s') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='t') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='u') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='v') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='w') representation_color(2);representation_color(3);representation_color(1);representation_color(2); 
+ if(currentLetter=='x') representation_color(2);representation_color(3);representation_color(1);representation_color(2);         
+ if(currentLetter=='y') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='z') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter==' ') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='.') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter==',') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='0') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='1') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='2') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='3') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='4') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='5') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='6') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='7') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='8') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
+ if(currentLetter=='9') representation_color(2);representation_color(3);representation_color(1);representation_color(2);
   
   
 }
@@ -124,48 +164,7 @@ void sendLetter(){
 /*
 void sendLetter(){
   //PREGUNTAR SI SE NECESITAN LAS TILDES Y LAS MAYÚSCULAS
- if(currentLetter=='%') vector_color(comp3,comp3,0);
- if(currentLetter=='&') vector_color(0,0,0);
- if(currentLetter=='*') vector_color(0,0,0);
- if(currentLetter=='a') vector_color(128,0,0);
- if(currentLetter=='b') vector_color(0,0,0);
- if(currentLetter=='c') vector_color(0,0,0);
- if(currentLetter=='d') vector_color(0,0,0);
- if(currentLetter=='e') vector_color(0,0,0);
- if(currentLetter=='f') vector_color(0,0,0);
- if(currentLetter=='g') vector_color(0,0,0);   
- if(currentLetter=='h') vector_color(0,0,0);
- if(currentLetter=='i') vector_color(0,0,0);
- if(currentLetter=='j') vector_color(0,0,0);
- if(currentLetter=='k') vector_color(0,0,0);
- if(currentLetter=='l') vector_color(0,0,0);
- if(currentLetter=='m') vector_color(0,0,0);     
- irepresentation_color(2);f(currentLetter=='n') vector_color(0,0,0);
- if(currentLetter=='o') vector_color(0,0,0);
- if(currentLetter=='p') vector_color(0,0,0);
- if(currentLetter=='q') vector_color(0,0,0);
- if(currentLetter=='r') vector_color(0,0,0);
- if(currentLetter=='s') vector_color(0,0,0);
- if(currentLetter=='t') vector_color(0,0,0);
- if(currentLetter=='u') vector_color(0,0,0);
- if(currentLetter=='v') vector_color(0,0,0);
- if(currentLetter=='w') vector_color(0,0,0); 
- if(currentLetter=='x') vector_color(0,0,0);         
- if(currentLetter=='y') vector_color(0,0,0);
- if(currentLetter=='z') vector_color(0,0,0);
- if(currentLetter==' ') vector_color(0,0,0);
- if(currentLetter=='.') vector_color(0,0,0);
- if(currentLetter==',') vector_color(0,0,0);
- if(currentLetter=='0') vector_color(0,0,0);
- if(currentLetter=='1') vector_color(0,0,0);
- if(currentLetter=='2') vector_color(0,0,0);
- if(currentLetter=='3') vector_color(0,0,0);
- if(currentLetter=='4') vector_color(0,0,0);
- if(currentLetter=='5') vector_color(0,0,0);
- if(currentLetter=='6') vector_color(0,0,0);
- if(currentLetter=='7') vector_color(0,0,0);
- if(currentLetter=='8') vector_color(0,0,0);
- if(currentLetter=='9') vector_color(0,0,0);
+ 
 }*/
 
 
