@@ -115,95 +115,95 @@ void sendLetter(){
  if(currentLetter=='p'){representation_color("01","11","00","00"); return;}
  if(currentLetter=='q'){representation_color("01","11","00","01"); return;}
  if(currentLetter=='r'){representation_color("01","11","00","10"); return;}
- if(currentLetter=='s'){representation_color(); return;}
- if(currentLetter=='t'){representation_color(); return;}
- if(currentLetter=='u'){representation_color(); return;}
- if(currentLetter=='v'){representation_color(); return;}
- if(currentLetter=='w'){representation_color(); return;} 
- if(currentLetter=='x'){representation_color(); return;}         
- if(currentLetter=='y'){representation_color(); return;}
- if(currentLetter=='z'){representation_color(); return;}
+ if(currentLetter=='s'){representation_color("01","11","00","11"); return;}
+ if(currentLetter=='t'){representation_color("01","11","01","00"); return;}
+ if(currentLetter=='u'){representation_color("01","11","01","01"); return;}
+ if(currentLetter=='v'){representation_color("01","11","01","10"); return;}
+ if(currentLetter=='w'){representation_color("01","11","01","11"); return;} 
+ if(currentLetter=='x'){representation_color("01","11","10","00"); return;}         
+ if(currentLetter=='y'){representation_color("01","11","10","01"); return;}
+ if(currentLetter=='z'){representation_color("01","11","10","10"); return;}
  //Mayúsculas
- if(currentLetter=='A'){representation_color(); return;}
- if(currentLetter=='B'){representation_color(); return;}
- if(currentLetter=='C'){representation_color(); return;}
- if(currentLetter=='D'){representation_color(); return;}
- if(currentLetter=='E'){representation_color(); return;}
- if(currentLetter=='F'){representation_color(); return;}
- if(currentLetter=='G'){representation_color(); return;}   
- if(currentLetter=='H'){representation_color(); return;}
- if(currentLetter=='I'){representation_color(); return;}
- if(currentLetter=='J'){representation_color(); return;}
- if(currentLetter=='K'){representation_color(); return;}
- if(currentLetter=='L'){representation_color(); return;}
- if(currentLetter=='M'){representation_color(); return;}     
- if(currentLetter=='N'){representation_color(); return;}
- if(currentLetter=='O'){representation_color(); return;}
- if(currentLetter=='P'){representation_color(); return;}
- if(currentLetter=='Q'){representation_color(); return;}
- if(currentLetter=='R'){representation_color(); return;}
- if(currentLetter=='S'){representation_color(); return;}
- if(currentLetter=='T'){representation_color(); return;}
- if(currentLetter=='U'){representation_color(); return;}
- if(currentLetter=='V'){representation_color(); return;}
- if(currentLetter=='W'){representation_color(); return;} 
- if(currentLetter=='X'){representation_color(); return;}         
- if(currentLetter=='Y'){representation_color(); return;}
- if(currentLetter=='Z'){representation_color(); return;}
+ if(currentLetter=='A'){representation_color("01","00","00","01"); return;}
+ if(currentLetter=='B'){representation_color("01","00","00","10"); return;}
+ if(currentLetter=='C'){representation_color("01","00","00","11"); return;}
+ if(currentLetter=='D'){representation_color("01","00","01","00"); return;}
+ if(currentLetter=='E'){representation_color("01","00","01","01"); return;}
+ if(currentLetter=='F'){representation_color("01","00","01","10"); return;}
+ if(currentLetter=='G'){representation_color("01","00","01","11"); return;}   
+ if(currentLetter=='H'){representation_color("01","00","10","00"); return;}
+ if(currentLetter=='I'){representation_color("01","00","10","01"); return;}
+ if(currentLetter=='J'){representation_color("01","00","10","10"); return;}
+ if(currentLetter=='K'){representation_color("01","00","10","11"); return;}
+ if(currentLetter=='L'){representation_color("01","00","11","00"); return;}
+ if(currentLetter=='M'){representation_color("01","00","11","01"); return;}     
+ if(currentLetter=='N'){representation_color("01","00","11","10"); return;}
+ if(currentLetter=='O'){representation_color("01","00","11","11"); return;}
+ if(currentLetter=='P'){representation_color("01","01","00","00"); return;}
+ if(currentLetter=='Q'){representation_color("01","01","00","01"); return;}
+ if(currentLetter=='R'){representation_color("01","01","00","10"); return;}
+ if(currentLetter=='S'){representation_color("01","01","00","11"); return;}
+ if(currentLetter=='T'){representation_color("01","01","01","00"); return;}
+ if(currentLetter=='U'){representation_color("01","01","01","01"); return;}
+ if(currentLetter=='V'){representation_color("01","01","01","10"); return;}
+ if(currentLetter=='W'){representation_color("01","01","01","11"); return;} 
+ if(currentLetter=='X'){representation_color("01","01","10","00"); return;}         
+ if(currentLetter=='Y'){representation_color("01","01","10","01"); return;}
+ if(currentLetter=='Z'){representation_color("01","01","10","10"); return;}
  //Tildes minúsculas
- if(currentLetter=='á'){representation_color(); return;}
- if(currentLetter=='é'){representation_color(); return;}
- if(currentLetter=='í'){representation_color(); return;}
- if(currentLetter=='ó'){representation_color(); return;}
- if(currentLetter=='ú'){representation_color(); return;}
+ if(currentLetter=='á'){representation_color("11","10","00","01"); return;}
+ if(currentLetter=='é'){representation_color("11","10","10","01"); return;}
+ if(currentLetter=='í'){representation_color("11","10","11","01"); return;}
+ if(currentLetter=='ó'){representation_color("11","11","00","11"); return;}
+ if(currentLetter=='ú'){representation_color("11","11","10","10"); return;}
  //Tildes mayúsculas
- if(currentLetter=='Á'){representation_color(); return;}
- if(currentLetter=='É'){representation_color(); return;}
- if(currentLetter=='Í'){representation_color(); return;}
- if(currentLetter=='Ó'){representation_color(); return;}
- if(currentLetter=='Ú'){representation_color(); return;}
+ if(currentLetter=='Á'){representation_color("11","00","00","01"); return;}
+ if(currentLetter=='É'){representation_color("11","00","10","01"); return;}
+ if(currentLetter=='Í'){representation_color("11","00","11","01"); return;}
+ if(currentLetter=='Ó'){representation_color("11","01","00","11"); return;}
+ if(currentLetter=='Ú'){representation_color("11","01","10","10"); return;}
  //Números
- if(currentLetter=='0'){representation_color(); return;}
- if(currentLetter=='1'){representation_color(); return;}
- if(currentLetter=='2'){representation_color(); return;}
- if(currentLetter=='3'){representation_color(); return;}
- if(currentLetter=='4'){representation_color(); return;}
- if(currentLetter=='5'){representation_color(); return;}
- if(currentLetter=='6'){representation_color(); return;}
- if(currentLetter=='7'){representation_color(); return;}
- if(currentLetter=='8'){representation_color(); return;}
- if(currentLetter=='9'){representation_color(); return;}
+ if(currentLetter=='0'){representation_color("00","11","00","00"); return;}
+ if(currentLetter=='1'){representation_color("00","11","00","01"); return;}
+ if(currentLetter=='2'){representation_color("00","11","00","10"); return;}
+ if(currentLetter=='3'){representation_color("00","11","00","11"); return;}
+ if(currentLetter=='4'){representation_color("00","11","01","00"); return;}
+ if(currentLetter=='5'){representation_color("00","11","01","01"); return;}
+ if(currentLetter=='6'){representation_color("00","11","01","10"); return;}
+ if(currentLetter=='7'){representation_color("00","11","01","11"); return;}
+ if(currentLetter=='8'){representation_color("00","11","10","00"); return;}
+ if(currentLetter=='9'){representation_color("00","11","10","01"); return;}
  //Símbolos
- if(currentLetter=='%'){representation_color(); return;}
- if(currentLetter=='&'){representation_color(); return;}
- if(currentLetter=='*'){representation_color(); return;}
- if(currentLetter==' '){representation_color(); return;}
- if(currentLetter=='.'){representation_color(); return;}
- if(currentLetter==','){representation_color(); return;}
- if(currentLetter=='!'){representation_color(); return;}
- if(currentLetter=='"'){representation_color(); return;}
- if(currentLetter=='#'){representation_color(); return;}
- if(currentLetter=='$'){representation_color(); return;}
- if(currentLetter=='('){representation_color(); return;}
- if(currentLetter==')'){representation_color(); return;}
- if(currentLetter=='+'){representation_color(); return;}
- if(currentLetter=='-'){representation_color(); return;}
- if(currentLetter=='/'){representation_color(); return;}
- if(currentLetter==':'){representation_color(); return;}
- if(currentLetter==';'){representation_color(); return;}
- if(currentLetter=='<'){representation_color(); return;}
- if(currentLetter=='='){representation_color(); return;}
- if(currentLetter=='>'){representation_color(); return;}
- if(currentLetter=='?'){representation_color(); return;}
- if(currentLetter=='@'){representation_color(); return;}
- if(currentLetter=='['){representation_color(); return;}
- if(currentLetter==']'){representation_color(); return;}
- if(currentLetter=='^'){representation_color(); return;}
- if(currentLetter=='_'){representation_color(); return;}
- if(currentLetter=='{'){representation_color(); return;}
- if(currentLetter=='}'){representation_color(); return;}
- if(currentLetter=='|'){representation_color(); return;}
- if(currentLetter=='~'){representation_color(); return;}
+ if(currentLetter=='%'){representation_color("00","10","01","01"); return;}
+ if(currentLetter=='&'){representation_color("00","10","01","10"); return;}
+ if(currentLetter=='*'){representation_color("00","10","10","10"); return;}
+ if(currentLetter==' '){representation_color("00","10","00","00"); return;}
+ if(currentLetter=='.'){representation_color("00","10","11","10"); return;}
+ if(currentLetter==','){representation_color("00","10","11","00"); return;}
+ if(currentLetter=='!'){representation_color("00","10","00","01"); return;}
+ if(currentLetter=='"'){representation_color("00","10","00","10"); return;}
+ if(currentLetter=='#'){representation_color("00","10","00","11"); return;}
+ if(currentLetter=='$'){representation_color("00","10","01","00"); return;}
+ if(currentLetter=='('){representation_color("00","10","10","00"); return;}
+ if(currentLetter==')'){representation_color("00","10","10","01"); return;}
+ if(currentLetter=='+'){representation_color("00","10","10","11"); return;}
+ if(currentLetter=='-'){representation_color("00","10","11","01"); return;}
+ if(currentLetter=='/'){representation_color("00","10","11","11"); return;}
+ if(currentLetter==':'){representation_color("00","11","10","10"); return;}
+ if(currentLetter==';'){representation_color("00","11","10","11"); return;}
+ if(currentLetter=='<'){representation_color("00","11","11","00"); return;}
+ if(currentLetter=='='){representation_color("00","11","11","01"); return;}
+ if(currentLetter=='>'){representation_color("00","11","11","10"); return;}
+ if(currentLetter=='?'){representation_color("00","11","11","11"); return;}
+ if(currentLetter=='@'){representation_color("01","00","00","00"); return;}
+ if(currentLetter=='['){representation_color("01","01","10","11"); return;}
+ if(currentLetter==']'){representation_color("01","01","11","01"); return;}
+ if(currentLetter=='^'){representation_color("01","01","11","10"); return;}
+ if(currentLetter=='_'){representation_color("01","01","11","11"); return;}
+ if(currentLetter=='{'){representation_color("01","11","10","11"); return;}
+ if(currentLetter=='}'){representation_color("01","11","11","01"); return;}
+ if(currentLetter=='|'){representation_color("01","11","11","00"); return;}
+ if(currentLetter=='~'){representation_color("01","11","11","10"); return;}
 }
 
 void readVectorColor(float pos1,float pos2, float pos3){
@@ -226,10 +226,10 @@ void readLetter(){
 Serial.print(binaryValue);
      //Minúsculas
      if (binaryValue=="01100001"); Serial.print("a"); compareLetter='a';
-     if (binaryValue==""); Serial.print("b"); compareLetter='b';
-     if (binaryValue==""); Serial.print("c"); compareLetter='c';
-     if (binaryValue==""); Serial.print("d"); compareLetter='d';
-     if (binaryValue==""); Serial.print("e"); compareLetter='e';
+     if (binaryValue=="01100010"); Serial.print("b"); compareLetter='b';
+     if (binaryValue=="01100011"); Serial.print("c"); compareLetter='c';
+     if (binaryValue=="01100100"); Serial.print("d"); compareLetter='d';
+     if (binaryValue=="01100101"); Serial.print("e"); compareLetter='e';
      if (binaryValue==""); Serial.print("f"); compareLetter='f';
      if (binaryValue==""); Serial.print("g"); compareLetter='g';
      if (binaryValue==""); Serial.print("h"); compareLetter='h';
