@@ -14,6 +14,7 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS3472
  * https://www.youtube.com/watch?v=TWKmbTITEes
  * https://create.arduino.cc/editor/ProfeGarcia/3e920fea-36c8-4fbc-a3a6-783f5ffa1902/preview
  * https://create.arduino.cc/editor/ProfeGarcia/f8bf6115-9715-4345-88f2-9c3cb1ecefca/preview
+ * https://www.youtube.com/watch?v=PPsUHX6nVow (Video ficheros)
  * Bibliografía de conceptos:
  * https://en.wikipedia.org/wiki/Color_difference
  * https://www.calculadoraconversor.com/ascii-a-binario/
