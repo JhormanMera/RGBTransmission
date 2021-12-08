@@ -230,108 +230,108 @@ Serial.print(binaryValue);
      if (binaryValue=="01100011"); Serial.print("c"); compareLetter='c';
      if (binaryValue=="01100100"); Serial.print("d"); compareLetter='d';
      if (binaryValue=="01100101"); Serial.print("e"); compareLetter='e';
-     if (binaryValue==""); Serial.print("f"); compareLetter='f';
-     if (binaryValue==""); Serial.print("g"); compareLetter='g';
-     if (binaryValue==""); Serial.print("h"); compareLetter='h';
-     if (binaryValue==""); Serial.print("i"); compareLetter='i';
-     if (binaryValue==""); Serial.print("j"); compareLetter='j';
-     if (binaryValue==""); Serial.print("k"); compareLetter='k';
+     if (binaryValue=="01100110"); Serial.print("f"); compareLetter='f';
+     if (binaryValue=="01100111"); Serial.print("g"); compareLetter='g';
+     if (binaryValue=="01101000"); Serial.print("h"); compareLetter='h';
+     if (binaryValue=="01101001"); Serial.print("i"); compareLetter='i';
+     if (binaryValue=="01101010"); Serial.print("j"); compareLetter='j';
+     if (binaryValue=="01101011"); Serial.print("k"); compareLetter='k';
      if (binaryValue=="01101100"); Serial.print("l"); compareLetter='l';
-     if (binaryValue==""); Serial.print("m"); compareLetter='m';
-     if (binaryValue==""); Serial.print("n"); compareLetter='n';
-     if (binaryValue==""); Serial.print("o"); compareLetter='o';
+     if (binaryValue=="01101101"); Serial.print("m"); compareLetter='m';
+     if (binaryValue=="01101110"); Serial.print("n"); compareLetter='n';
+     if (binaryValue=="01101111"); Serial.print("o"); compareLetter='o';
      if (binaryValue=="01110000"); Serial.print("p"); compareLetter='p';
-     if (binaryValue==""); Serial.print("q"); compareLetter='q';
-     if (binaryValue==""); Serial.print("r"); compareLetter='r';
-     if (binaryValue==""); Serial.print("s"); compareLetter='s';
-     if (binaryValue==""); Serial.print("t"); compareLetter='t';
+     if (binaryValue=="01110001"); Serial.print("q"); compareLetter='q';
+     if (binaryValue=="01110010"); Serial.print("r"); compareLetter='r';
+     if (binaryValue=="01110011"); Serial.print("s"); compareLetter='s';
+     if (binaryValue=="01110100"); Serial.print("t"); compareLetter='t';
      if (binaryValue=="01110101"); Serial.print("u"); compareLetter='u';
-     if (binaryValue==""); Serial.print("v"); compareLetter='v';
-     if (binaryValue==""); Serial.print("w"); compareLetter='w';
-     if (binaryValue==""); Serial.print("x"); compareLetter='x';
-     if (binaryValue==""); Serial.print("y"); compareLetter='y';
-     if (binaryValue==""); Serial.print("z"); compareLetter='z';
+     if (binaryValue=="01110110"); Serial.print("v"); compareLetter='v';
+     if (binaryValue=="01110111"); Serial.print("w"); compareLetter='w';
+     if (binaryValue=="01111000"); Serial.print("x"); compareLetter='x';
+     if (binaryValue=="01111001"); Serial.print("y"); compareLetter='y';
+     if (binaryValue=="01111010"); Serial.print("z"); compareLetter='z';
      //Mayusculas
-     if (binaryValue==""); Serial.print("A"); compareLetter='A';
-     if (binaryValue==""); Serial.print("B"); compareLetter='B';
-     if (binaryValue==""); Serial.print("C"); compareLetter='C';
-     if (binaryValue==""); Serial.print("D"); compareLetter='D';
-     if (binaryValue==""); Serial.print("E"); compareLetter='E';
-     if (binaryValue==""); Serial.print("F"); compareLetter='F';
-     if (binaryValue==""); Serial.print("G"); compareLetter='G';
-     if (binaryValue==""); Serial.print("H"); compareLetter='H';
-     if (binaryValue==""); Serial.print("I"); compareLetter='I';
-     if (binaryValue==""); Serial.print("J"); compareLetter='J';
-     if (binaryValue==""); Serial.print("K"); compareLetter='K';
-     if (binaryValue==""); Serial.print("L"); compareLetter='L';
-     if (binaryValue==""); Serial.print("M"); compareLetter='M';
-     if (binaryValue==""); Serial.print("N"); compareLetter='N';
-     if (binaryValue==""); Serial.print("O"); compareLetter='O';
-     if (binaryValue==""); Serial.print("P"); compareLetter='P';
-     if (binaryValue==""); Serial.print("Q"); compareLetter='Q';
-     if (binaryValue==""); Serial.print("R"); compareLetter='R';
-     if (binaryValue==""); Serial.print("S"); compareLetter='S';
-     if (binaryValue==""); Serial.print("T"); compareLetter='T';
-     if (binaryValue==""); Serial.print("U"); compareLetter='U';
-     if (binaryValue==""); Serial.print("V"); compareLetter='V';
-     if (binaryValue==""); Serial.print("W"); compareLetter='W';
-     if (binaryValue==""); Serial.print("X"); compareLetter='X';
-     if (binaryValue==""); Serial.print("Y"); compareLetter='Y';
-     if (binaryValue==""); Serial.print("Z"); compareLetter='Z';
+     if (binaryValue=="01000001"); Serial.print("A"); compareLetter='A';
+     if (binaryValue=="01000010"); Serial.print("B"); compareLetter='B';
+     if (binaryValue=="01000011"); Serial.print("C"); compareLetter='C';
+     if (binaryValue=="01000100"); Serial.print("D"); compareLetter='D';
+     if (binaryValue=="01000101"); Serial.print("E"); compareLetter='E';
+     if (binaryValue=="01000110"); Serial.print("F"); compareLetter='F';
+     if (binaryValue=="01000111"); Serial.print("G"); compareLetter='G';
+     if (binaryValue=="01001000"); Serial.print("H"); compareLetter='H';
+     if (binaryValue=="01001001"); Serial.print("I"); compareLetter='I';
+     if (binaryValue=="01001010"); Serial.print("J"); compareLetter='J';
+     if (binaryValue=="01001011"); Serial.print("K"); compareLetter='K';
+     if (binaryValue=="01001100"); Serial.print("L"); compareLetter='L';
+     if (binaryValue=="01001101"); Serial.print("M"); compareLetter='M';
+     if (binaryValue=="01001110"); Serial.print("N"); compareLetter='N';
+     if (binaryValue=="01001111"); Serial.print("O"); compareLetter='O';
+     if (binaryValue=="01010000"); Serial.print("P"); compareLetter='P';
+     if (binaryValue=="01010001"); Serial.print("Q"); compareLetter='Q';
+     if (binaryValue=="01010010"); Serial.print("R"); compareLetter='R';
+     if (binaryValue=="01010011"); Serial.print("S"); compareLetter='S';
+     if (binaryValue=="01010100"); Serial.print("T"); compareLetter='T';
+     if (binaryValue=="01010101"); Serial.print("U"); compareLetter='U';
+     if (binaryValue=="01010110"); Serial.print("V"); compareLetter='V';
+     if (binaryValue=="01010111"); Serial.print("W"); compareLetter='W';
+     if (binaryValue=="01011000"); Serial.print("X"); compareLetter='X';
+     if (binaryValue=="01011001"); Serial.print("Y"); compareLetter='Y';
+     if (binaryValue=="01011010"); Serial.print("Z"); compareLetter='Z';
      //Números
-     if (binaryValue==""); Serial.print("0"); compareLetter='0';
-     if (binaryValue==""); Serial.print("1"); compareLetter='1';
-     if (binaryValue==""); Serial.print("2"); compareLetter='2';
-     if (binaryValue==""); Serial.print("3"); compareLetter='3';
-     if (binaryValue==""); Serial.print("4"); compareLetter='4';
-     if (binaryValue==""); Serial.print("5"); compareLetter='5';
-     if (binaryValue==""); Serial.print("6"); compareLetter='6';
-     if (binaryValue==""); Serial.print("7"); compareLetter='7';
-     if (binaryValue==""); Serial.print("8"); compareLetter='8';
-     if (binaryValue==""); Serial.print("9"); compareLetter='9';
+     if (binaryValue=="00110000"); Serial.print("0"); compareLetter='0';
+     if (binaryValue=="00110001"); Serial.print("1"); compareLetter='1';
+     if (binaryValue=="00110010"); Serial.print("2"); compareLetter='2';
+     if (binaryValue=="00110011"); Serial.print("3"); compareLetter='3';
+     if (binaryValue=="00110100"); Serial.print("4"); compareLetter='4';
+     if (binaryValue=="00110101"); Serial.print("5"); compareLetter='5';
+     if (binaryValue=="00110110"); Serial.print("6"); compareLetter='6';
+     if (binaryValue=="00110111"); Serial.print("7"); compareLetter='7';
+     if (binaryValue=="00111000"); Serial.print("8"); compareLetter='8';
+     if (binaryValue=="00111001"); Serial.print("9"); compareLetter='9';
      //Tildes minúsculas
-     if (binaryValue==""); Serial.print("á"); compareLetter='á';
-     if (binaryValue==""); Serial.print("é"); compareLetter='é';
-     if (binaryValue==""); Serial.print("í"); compareLetter='í';
-     if (binaryValue==""); Serial.print("ó"); compareLetter='ó';
-     if (binaryValue==""); Serial.print("ú"); compareLetter='ú';
+     if (binaryValue=="11100001"); Serial.print("á"); compareLetter='á';
+     if (binaryValue=="11101001"); Serial.print("é"); compareLetter='é';
+     if (binaryValue=="11101101"); Serial.print("í"); compareLetter='í';
+     if (binaryValue=="11110011"); Serial.print("ó"); compareLetter='ó';
+     if (binaryValue=="11111010"); Serial.print("ú"); compareLetter='ú';
      //Tildes mayúsculas
-     if (binaryValue==""); Serial.print("Á"); compareLetter='Á';
-     if (binaryValue==""); Serial.print("É"); compareLetter='É';
-     if (binaryValue==""); Serial.print("Í"); compareLetter='Í';
-     if (binaryValue==""); Serial.print("Ó"); compareLetter='Ó';
-     if (binaryValue==""); Serial.print("Ú"); compareLetter='Ú';
+     if (binaryValue=="11000001"); Serial.print("Á"); compareLetter='Á';
+     if (binaryValue=="11001001"); Serial.print("É"); compareLetter='É';
+     if (binaryValue=="11001101"); Serial.print("Í"); compareLetter='Í';
+     if (binaryValue=="11010011"); Serial.print("Ó"); compareLetter='Ó';
+     if (binaryValue=="11011010"); Serial.print("Ú"); compareLetter='Ú';
      //Símbolos
-     if(binaryValue==""){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue==""){Serial.print("&"); compareLetter='&';return;}
-     if(binaryValue==""){Serial.print("*"); compareLetter='*';return;}
-     if(binaryValue==""){Serial.print(" "); compareLetter=' ';return;}
-     if(binaryValue==""){Serial.print("."); compareLetter='.';return;}
-     if(binaryValue==""){Serial.print(","); compareLetter=',';return;}
-     if(binaryValue==""){Serial.print("!"); compareLetter='!';return;}
-     if(binaryValue==""){Serial.print('"'); compareLetter='"';return;}
-     if(binaryValue==""){Serial.print("#"); compareLetter='#';return;}
-     if(binaryValue==""){Serial.print("$"); compareLetter='$';return;}
-     if(binaryValue==""){Serial.print("("); compareLetter='(';return;}
-     if(binaryValue==""){Serial.print(")"); compareLetter=')';return;}
-     if(binaryValue==""){Serial.print("+"); compareLetter='+';return;}
-     if(binaryValue==""){Serial.print("-"); compareLetter='-';return;}
-     if(binaryValue==""){Serial.print("/"); compareLetter='/';return;}
-     if(binaryValue==""){Serial.print(":"); compareLetter=':';return;}
-     if(binaryValue==""){Serial.print(";"); compareLetter=';';return;}
-     if(binaryValue==""){Serial.print("<"); compareLetter='<';return;}
-     if(binaryValue==""){Serial.print("="); compareLetter='=';return;}
-     if(binaryValue==""){Serial.print(">"); compareLetter='>';return;}
-     if(binaryValue==""){Serial.print("?"); compareLetter='?';return;}
-     if(binaryValue==""){Serial.print("@"); compareLetter='@';return;}
-     if(binaryValue==""){Serial.print("["); compareLetter='[';return;}
-     if(binaryValue==""){Serial.print("]"); compareLetter=']';return;}
-     if(binaryValue==""){Serial.print("^"); compareLetter='^';return;}
-     if(binaryValue==""){Serial.print("_"); compareLetter='_';return;}
-     if(binaryValue==""){Serial.print("{"); compareLetter='{';return;}
-     if(binaryValue==""){Serial.print("}"); compareLetter='}';return;}
-     if(binaryValue==""){Serial.print("|"); compareLetter='|';return;}
-     if(binaryValue==""){Serial.print("~"); compareLetter='~';return;}
+     if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&';return;}
+     if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
+     if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
+     if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
+     if(binaryValue=="00101100"){Serial.print(","); compareLetter=',';return;}
+     if(binaryValue=="00100001"){Serial.print("!"); compareLetter='!';return;}
+     if(binaryValue=="00100010"){Serial.print('"'); compareLetter='"';return;}
+     if(binaryValue=="00100011"){Serial.print("#"); compareLetter='#';return;}
+     if(binaryValue=="00100100"){Serial.print("$"); compareLetter='$';return;}
+     if(binaryValue=="00101000"){Serial.print("("); compareLetter='(';return;}
+     if(binaryValue=="00101001"){Serial.print(")"); compareLetter=')';return;}
+     if(binaryValue=="00101011"){Serial.print("+"); compareLetter='+';return;}
+     if(binaryValue=="00101101"){Serial.print("-"); compareLetter='-';return;}
+     if(binaryValue=="00101111"){Serial.print("/"); compareLetter='/';return;}
+     if(binaryValue=="00111010"){Serial.print(":"); compareLetter=':';return;}
+     if(binaryValue=="00111011"){Serial.print(";"); compareLetter=';';return;}
+     if(binaryValue=="00111100"){Serial.print("<"); compareLetter='<';return;}
+     if(binaryValue=="00111101"){Serial.print("="); compareLetter='=';return;}
+     if(binaryValue=="00111110"){Serial.print(">"); compareLetter='>';return;}
+     if(binaryValue=="00111111"){Serial.print("?"); compareLetter='?';return;}
+     if(binaryValue=="01000000"){Serial.print("@"); compareLetter='@';return;}
+     if(binaryValue=="01011011"){Serial.print("["); compareLetter='[';return;}
+     if(binaryValue=="01011101"){Serial.print("]"); compareLetter=']';return;}
+     if(binaryValue=="01011110"){Serial.print("^"); compareLetter='^';return;}
+     if(binaryValue=="01011111"){Serial.print("_"); compareLetter='_';return;}
+     if(binaryValue=="01111011"){Serial.print("{"); compareLetter='{';return;}
+     if(binaryValue=="01111101"){Serial.print("}"); compareLetter='}';return;}
+     if(binaryValue=="01111100"){Serial.print("|"); compareLetter='|';return;}
+     if(binaryValue=="01111110"){Serial.print("~"); compareLetter='~';return;}
 }
 
 void representation_color(String pos1, String pos2, String pos3, String pos4){
