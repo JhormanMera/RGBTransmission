@@ -2,7 +2,7 @@
 float valueLedR,valueLedG,valueLedB;
 char compareLetter=' ';
 String binaryValue;
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_300MS, TCS34725_GAIN_1X);
 
 void setup() {
  Serial.begin(9600);
@@ -45,11 +45,11 @@ void readVectorColor(float pos1,float pos2, float pos3){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
-// 11 4 (255,0,255)
+// 11 4 (0,255,255)
   if((pos1>=160)&&(pos2<=120)&&(pos3<=120)){ binaryValue+= "00";return;}
   if((pos1<=120)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "01";return;}
   if((pos1<=120)&&(pos2>=160)&&(pos3<=120)){ binaryValue+= "10";return;}
-  if((pos1>=160)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "11";return;}
+  if((pos1<=120)&&(pos2>=160)&&(pos3>=160)){ binaryValue+= "11";return;}
 }
 
 void readLetter(){
