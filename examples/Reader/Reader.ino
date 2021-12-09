@@ -1,9 +1,7 @@
 #include <Adafruit_TCS34725.h>
 float valueLedR,valueLedG,valueLedB;
-char currentLetter=' ';
 char compareLetter=' ';
 String binaryValue;
-boolean functional;
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_50MS, TCS34725_GAIN_1X);
 
 void setup() {
@@ -16,31 +14,31 @@ void setup() {
 
 void loop() {
  binaryValue = "";
- functional=false;
  readColor();
- Serial.println("loop");
- Serial.println(valueLedR);
- Serial.println(valueLedG);
- Serial.println(valueLedB);
- if(functional){
-  readColor();
-    while(functional){
-    Serial.println("Entraste Campeoooon");
-    readColor();
-  }
-  if(binaryValue!=""){
-  readLetter();
-  Serial.println("Se supone que ya pasó por el read letter");
-  binaryValue = "";
-  }
- }
+ if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
+    readText();
+  } 
 }
+
 void readColor(){
   tcs.setInterrupt(false);
   // Hacer rgb medición relativa y escalar rgb a bytes
   tcs.getRGB(&valueLedR,&valueLedG,&valueLedB);//Get RGB Tiene internamente un método de GetRawData y en Get Raw Data ya está el delay, no es necesario un delay externo
   tcs.setInterrupt(true);
-  readVectorColor(valueLedR,valueLedG,valueLedG);
+  
+}
+
+void readText(){
+  while(binaryValue.length()<8){
+    Serial.println("En el while READTEXT");
+    readColor();
+    readVectorColor(valueLedR,valueLedG,valueLedB);
+  }
+  if(binaryValue.length()==8){
+      Serial.println("Entro para el read letter");
+      readLetter();
+      binaryValue = ""; 
+  }
 }
 
 void readVectorColor(float pos1,float pos2, float pos3){
@@ -48,22 +46,14 @@ void readVectorColor(float pos1,float pos2, float pos3){
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
 // 11 4 (255,0,255)
-  if((pos1>=180)&&(pos2>=180)&&(pos3>=180)){
-    if(functional){
-      functional=false;  
-    }else{
-      functional=true;
-    }
-    return;
-  }
-  if((pos1>=180)&&(pos2==0.00)&&(pos3==0.00)){ binaryValue+= "00";return;}
-  if((pos1==0.00)&&(pos2==0.00)&&(pos3>=180)){ binaryValue+= "01";return;}
-  if((pos1==0.00)&&(pos2>=180)&&(pos3==0.00)){ binaryValue+= "10";return;}
-  if((pos1>=180)&&(pos2==0.00)&&(pos3>=180)){ binaryValue+= "11";return;}
+  if((pos1>=160)&&(pos2<=120)&&(pos3<=120)){ binaryValue+= "00";return;}
+  if((pos1<=120)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "01";return;}
+  if((pos1<=120)&&(pos2>=160)&&(pos3<=120)){ binaryValue+= "10";return;}
+  if((pos1>=160)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "11";return;}
 }
 
 void readLetter(){
-Serial.print(binaryValue);
+Serial.println(binaryValue);
      //Minúsculas
      if (binaryValue=="01100001"){ Serial.print("a"); compareLetter='a';return;}
      if (binaryValue=="01100010"){ Serial.print("b"); compareLetter='b';return;}
