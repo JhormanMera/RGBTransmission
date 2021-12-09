@@ -2,7 +2,7 @@
 float valueLedR,valueLedG,valueLedB;
 char compareLetter=' ';
 String binaryValue;
-Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_300MS, TCS34725_GAIN_1X);
+Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_614MS, TCS34725_GAIN_1X);
 
 void setup() {
  Serial.begin(9600);
@@ -33,6 +33,7 @@ void readText(){
     Serial.println("En el while READTEXT");
     readColor();
     readVectorColor(valueLedR,valueLedG,valueLedB);
+    Serial.println(binaryValue);
   }
   if(binaryValue.length()==8){
       Serial.println("Entro para el read letter");

@@ -1,8 +1,8 @@
 int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
 int OUTPUTLEDB = 10;
 int OUTPUTLEDG = 9;
-int delayValue=50;
-char currentLetter=' ';
+int delayValue=1000;
+char currentLetter;
 
 void setup() {
  Serial.begin(9600);
@@ -20,7 +20,6 @@ void letterToColor(){
       currentLetter = Serial.read(); //lee la letra del puerto serial
       bit_Sync();
       sendLetter(); // Transforma la letra en color
-      delay(delayValue);
       bit_Sync();
  }
 }
@@ -29,7 +28,7 @@ void sendLetter(){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
-// 11 4 (255,0,255)
+// 11 4 (0,255,255)
  //Minúsculas
  if(currentLetter=='a'){representation_color("01","10","00","01"); return;}
  if(currentLetter=='b'){representation_color("01","10","00","10"); return;}
@@ -144,7 +143,7 @@ void bit_Sync(){
    digitalWrite(OUTPUTLEDR, HIGH);
    digitalWrite(OUTPUTLEDG, HIGH);
    digitalWrite(OUTPUTLEDB, HIGH);
-   delay(delayValue);
+   delay(delayValue*2);
 }
 
 void representation_color(String pos1, String pos2, String pos3, String pos4){
@@ -156,25 +155,33 @@ void representation_color(String pos1, String pos2, String pos3, String pos4){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
-// 11 4 (255,0,255)
+// 11 4 (0,255,255)
 
 void vector_color(String pos){
   if(pos=="00"){
   digitalWrite(OUTPUTLEDR, HIGH);
   digitalWrite(OUTPUTLEDG, LOW);
   digitalWrite(OUTPUTLEDB, LOW);
+  delay(delayValue);
+  return;
   }else if(pos=="01"){
   digitalWrite(OUTPUTLEDR, LOW);
   digitalWrite(OUTPUTLEDG, LOW);
   digitalWrite(OUTPUTLEDB, HIGH);
+  delay(delayValue);
+  return;
   }else if(pos=="10"){
    digitalWrite(OUTPUTLEDR, LOW);
    digitalWrite(OUTPUTLEDG, HIGH);
    digitalWrite(OUTPUTLEDB, LOW);
+   delay(delayValue);
+   return;
   }else{
-   digitalWrite(OUTPUTLEDR, HIGH);
-   digitalWrite(OUTPUTLEDG, LOW);
+   digitalWrite(OUTPUTLEDR, LOW);
+   digitalWrite(OUTPUTLEDG, HIGH);
    digitalWrite(OUTPUTLEDB, HIGH);
+   delay(delayValue);
+   return;
   }
  
 }
