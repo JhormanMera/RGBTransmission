@@ -18,12 +18,15 @@ myReceiver receiver = myReceiver();
  * https://www.calculadoraconversor.com/ascii-a-binario/
  * Calibracion sensor
  * https://learn.adafruit.com/calibrating-sensors/two-point-calibration
+ * https://www.youtube.com/watch?v=X4RevYjBJCU&t=176s
  */
 void setup(){
+  //receiver.setupReceiver();
   emitter.setupEmitter();
-  receiver.setupReceiver();
 }
 
 void loop() {
-
+   Serial.println("Entra al loop"); 
+  emitter.sendText();
+  
 }
