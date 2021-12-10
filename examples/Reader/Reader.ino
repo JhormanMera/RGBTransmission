@@ -10,10 +10,12 @@ void setup() {
   ;Serial.println("Error al iniciar TCS34725");
    while (!tcs.begin()) delay(1000);
   }
+  Serial.print("Entrara al loop");
 }
 
 void loop() {
  binaryValue = "";
+ Serial.println("Esta en el loop");
  readColor();
  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
     readText();

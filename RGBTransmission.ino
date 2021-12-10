@@ -37,7 +37,8 @@ void setup(){
 }
 
 void loop() {
- sendText(); 
+ //sendText(); 
+ Serial.print("Esta entrando al loop");
  letterToColor();
  readColor();
  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
