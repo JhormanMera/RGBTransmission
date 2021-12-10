@@ -21,6 +21,7 @@ class myReceiver{
   String getBinaryValue();
   void readText(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
   void initializer(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
-  
+  boolean firstRead(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
+  void beginReceive(float &r, float &g, float &b, String &bin);
 };
 #endif

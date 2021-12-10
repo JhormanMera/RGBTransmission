@@ -27,44 +27,11 @@ void setup(){
 }
 
 void loop() {
-   //Serial.println("Entra al loop"); 
-   //emitter.sendText();
-   int count = 0;
-   while(count<20){
-
-      if(Serial.available() > 0) {
-
-       String symbol = Serial.readString();
-
-       if(symbol == "%" || symbol == "&" || symbol == "~"){
-
-          if(symbol == "%"){
-            
-              modeChatSender();
-            }else if(symbol == "&"){
-
-              modeSendText();
-            }else{
-              
-            }
-          
-        }
-       count++; 
-       }
-   }
+   float r = 0.0;
+   float g = 0.0;
+    float b = 0.0;
+    String bin = "";
+   //receiver.initializer(&r,&g,&b,&bin);
    
    
-}
-
-void modeChatSender(){
-  
- }
-void modeChatReceibe(){
-  
-  }
- void modeSendText(){
-}
-
-void modeReceibeText(){
-  
 }

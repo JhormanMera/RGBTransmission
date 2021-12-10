@@ -1,8 +1,10 @@
 #include "myReceiver.h"
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_60MS, TCS34725_GAIN_1X);
+boolean out;
 myReceiver::myReceiver(){
   
 }
+
 
 void myReceiver::setupReceiver() {
  Serial.begin(9600);
@@ -38,7 +40,40 @@ char myReceiver::getCompareLetter(){
 String myReceiver::getBinaryValue(){
   return binaryValue;
 }
-void myReceiver::readLetter(String &binaryValue){
+void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue){
+  while(binaryValue.length()<8){
+    Serial.println("En el while READTEXT");
+    readColor(valueLedR,valueLedG,valueLedB);
+    readVectorColor(valueLedR,valueLedG,valueLedB,binaryValue);
+    Serial.println(binaryValue);
+ }
+  if(binaryValue.length()==8){
+      Serial.println("Entro para el read letter");
+      readLetter(binaryValue);
+      binaryValue = ""; 
+  }
+}
+
+void myReceiver::initializer(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue) {
+ readColor(valueLedR,valueLedG,valueLedB);
+ if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
+    readText(valueLedR,valueLedG,valueLedB,binaryValue);
+  } 
+}
+
+void myReceiver::beginReceive(float &r, float &g, float &b, String &bin){
+    
+   
+   
+   while(out==true){
+       //initializer(&r,&g,&b,&bin);
+       readColor(&r,&g,&b);
+   }
+  
+      
+}
+
+void myReceiver::readLetter(String &binaryValue, float &r, float &b, float &g, String &bin){
 Serial.println(binaryValue);
      //Minúsculas
      if (binaryValue=="01100001"){ Serial.print("a"); compareLetter='a';return;}
@@ -119,7 +154,7 @@ Serial.println(binaryValue);
      if (binaryValue=="11011010"){ Serial.print("Ú"); compareLetter='Ú';return;}
      //Símbolos
      if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&';return;}
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = true; beginReceive(&r, &b,&g, &bin);}
      if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
      if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
      if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
@@ -150,23 +185,14 @@ Serial.println(binaryValue);
      if(binaryValue=="01111110"){Serial.print("~"); compareLetter='~';return;}
 }
 
-void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue){
-  while(binaryValue.length()<8){
-    Serial.println("En el while READTEXT");
-    readColor(valueLedR,valueLedG,valueLedB);
-    readVectorColor(valueLedR,valueLedG,valueLedB,binaryValue);
-    Serial.println(binaryValue);
- }
-  if(binaryValue.length()==8){
-      Serial.println("Entro para el read letter");
-      readLetter(binaryValue);
-      binaryValue = ""; 
-  }
-}
 
-void myReceiver::initializer(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue) {
+
+
+boolean myReceiver::firstRead(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue) {
  readColor(valueLedR,valueLedG,valueLedB);
  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
-    readText(valueLedR,valueLedG,valueLedB,binaryValue);
-  } 
+    return true;
+  }else{
+    return false;
+    } 
 }
