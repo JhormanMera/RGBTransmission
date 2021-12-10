@@ -37,6 +37,7 @@ void setup(){
 }
 
 void loop() {
+ sendText(); 
  letterToColor();
  readColor();
  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){

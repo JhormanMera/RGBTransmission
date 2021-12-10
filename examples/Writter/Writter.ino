@@ -1,9 +1,10 @@
+#include <Separador.h>
 int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
 int OUTPUTLEDB = 10;
 int OUTPUTLEDG = 9;
 int delayValue=1000;
 char currentLetter;
-
+Separador s;
 void setup() {
  Serial.begin(9600);
  pinMode(OUTPUTLEDR,OUTPUT); // los pins digitales serán de salida
@@ -12,7 +13,8 @@ void setup() {
 }
 
 void loop() {
- letterToColor();
+ //letterToColor();
+ sendText();
 }
 
 void letterToColor(){
@@ -183,5 +185,27 @@ void vector_color(String pos){
    delay(delayValue);
    return;
   }
+  
  
+}
+void sendText(){
+
+      while(Serial.available() > 0) {
+      String fullText = Serial.readString(); //lee la letra del puerto serial
+      for(int i=0; i < 100 ; i++){
+
+      String subText = s.separa(fullText, ' ', i);
+        
+          for(int j=0; j < subText.length();j++){
+
+            currentLetter = subText.charAt(j);
+            bit_Sync();
+            sendLetter(); // Transforma la letra en color
+            bit_Sync();
+            }
+
+       
+       }
+      
+ }
 }
