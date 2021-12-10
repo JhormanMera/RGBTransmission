@@ -37,8 +37,19 @@ void loop() {
        String symbol = Serial.readString();
 
        if(symbol == "%" || symbol == "&" || symbol == "~"){
-        
+
+          if(symbol == "%"){
+            
+              modeChatSender();
+            }else if(symbol == "&"){
+
+              modeSendText();
+            }else{
+              
+            }
+          
         }
+       count++; 
        }
    }
    
