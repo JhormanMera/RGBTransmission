@@ -12,7 +12,7 @@ myReceiver receiver = myReceiver();
  * https://create.arduino.cc/editor/ProfeGarcia/3e920fea-36c8-4fbc-a3a6-783f5ffa1902/preview
  * https://create.arduino.cc/editor/ProfeGarcia/f8bf6115-9715-4345-88f2-9c3cb1ecefca/preview
  * https://www.youtube.com/watch?v=PPsUHX6nVow (Video ficheros)
- * 
+ *  
  * Bibliografía de conceptos:
  * https://en.wikipedia.org/wiki/Color_difference
  * https://www.calculadoraconversor.com/ascii-a-binario/
@@ -21,12 +21,43 @@ myReceiver receiver = myReceiver();
  * https://www.youtube.com/watch?v=X4RevYjBJCU&t=176s
  */
 void setup(){
-  //receiver.setupReceiver();
+  receiver.setupReceiver();
   emitter.setupEmitter();
+  emitter.bit_Sync();
 }
 
 void loop() {
-   Serial.println("Entra al loop"); 
-  emitter.sendText();
+   //Serial.println("Entra al loop"); 
+   //emitter.sendText();
+   int count = 0;
+   while(count<20){
+
+      if(Serial.available() > 0) {
+
+       String symbol = Serial.readString();
+
+       switch(symbol){
+        
+       case "%":
+      
+       break;
+       case "&":
+
+
+       break;
+       case "~" :
+       
+       break;
+       }
+       }
+   }
+   
+   
+}
+
+void modeChatSender(){
+  
+}
+void modeChatReceiber(){
   
 }
