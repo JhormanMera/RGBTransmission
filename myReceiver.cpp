@@ -67,7 +67,7 @@ void myReceiver::beginReceive(float &r, float &g, float &b, String &bin){
    
    while(out==false){
     
-      initializer(r,g,b,bin);
+   initializer(r,g,b,bin);
 
               
    }

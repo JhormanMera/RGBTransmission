@@ -29,9 +29,12 @@ void setup(){
 void loop() {
    float r = 0.0;
    float g = 0.0;
-    float b = 0.0;
-    String bin = "";
-   //receiver.initializer(&r,&g,&b,&bin);
+   float b = 0.0;
+   String bin = "";
+   char a = ' ';
+   receiver.initializer(r,g,b,bin);
+   emitter.letterToColor(a);
+  
    
    
 }
