@@ -1,32 +1,71 @@
-#include <Separador.h>
-int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
-int OUTPUTLEDB = 10;
-int OUTPUTLEDG = 9;
-int delayValue=1000;
-char currentLetter;
+#include "myEmitter.h"
 Separador s;
-void setup() {
+
+myEmitter::myEmitter(int delayVal){ 
+   delayValue=delayVal;
+}
+
+void myEmitter::bit_Sync(){
+  //Bit Sync
+   digitalWrite(OUTPUTLEDR, HIGH);
+   digitalWrite(OUTPUTLEDG, HIGH);
+   digitalWrite(OUTPUTLEDB, HIGH);
+   delay(delayValue*2);
+}
+
+void myEmitter::setupEmitter() {
  Serial.begin(9600);
  pinMode(OUTPUTLEDR,OUTPUT); // los pins digitales serán de salida
  pinMode(OUTPUTLEDG,OUTPUT);
  pinMode(OUTPUTLEDB,OUTPUT);
 }
 
-void loop() {
- //letterToColor();
- sendText();
+void myEmitter::vector_color(String pos){
+  if(pos=="00"){
+  digitalWrite(OUTPUTLEDR, HIGH);
+  digitalWrite(OUTPUTLEDG, LOW);
+  digitalWrite(OUTPUTLEDB, LOW);
+  delay(delayValue);
+  return;
+  }else if(pos=="01"){
+  digitalWrite(OUTPUTLEDR, LOW);
+  digitalWrite(OUTPUTLEDG, LOW);
+  digitalWrite(OUTPUTLEDB, HIGH);
+  delay(delayValue);
+  return;
+  }else if(pos=="10"){
+   digitalWrite(OUTPUTLEDR, LOW);
+   digitalWrite(OUTPUTLEDG, HIGH);
+   digitalWrite(OUTPUTLEDB, LOW);
+   delay(delayValue);
+   return;
+  }else{
+   digitalWrite(OUTPUTLEDR, LOW);
+   digitalWrite(OUTPUTLEDG, HIGH);
+   digitalWrite(OUTPUTLEDB, HIGH);
+   delay(delayValue);
+   return;
+  }
+ }
+
+void myEmitter::representation_color(String pos1, String pos2, String pos3, String pos4){
+  vector_color(pos1);
+  vector_color(pos2);
+  vector_color(pos3);
+  vector_color(pos4);
 }
 
-void letterToColor(){
+
+void myEmitter::letterToColor(char *currentLetter){
  while(Serial.available() > 0) {
       currentLetter = Serial.read(); //lee la letra del puerto serial
       bit_Sync();
-      sendLetter(); // Transforma la letra en color
+      sendLetter(currentLetter); // Transforma la letra en color
       bit_Sync();
  }
 }
 
-void sendLetter(){
+void myEmitter::sendLetter(char currentLetter){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
@@ -140,66 +179,16 @@ void sendLetter(){
  if(currentLetter=='|'){representation_color("01","11","11","00"); return;}
  if(currentLetter=='~'){representation_color("01","11","11","10"); return;}
 }
-void bit_Sync(){
-  //Bit Sync
-   digitalWrite(OUTPUTLEDR, HIGH);
-   digitalWrite(OUTPUTLEDG, HIGH);
-   digitalWrite(OUTPUTLEDB, HIGH);
-   delay(delayValue*2);
-}
 
-void representation_color(String pos1, String pos2, String pos3, String pos4){
-  vector_color(pos1);
-  vector_color(pos2);
-  vector_color(pos3);
-  vector_color(pos4);
-}
-// 00 1 (255,0,0)
-// 01 2 (0,0,255)
-// 10 3 (0,255,0)
-// 11 4 (0,255,255)
-
-void vector_color(String pos){
-  if(pos=="00"){
-  digitalWrite(OUTPUTLEDR, HIGH);
-  digitalWrite(OUTPUTLEDG, LOW);
-  digitalWrite(OUTPUTLEDB, LOW);
-  delay(delayValue);
-  return;
-  }else if(pos=="01"){
-  digitalWrite(OUTPUTLEDR, LOW);
-  digitalWrite(OUTPUTLEDG, LOW);
-  digitalWrite(OUTPUTLEDB, HIGH);
-  delay(delayValue);
-  return;
-  }else if(pos=="10"){
-   digitalWrite(OUTPUTLEDR, LOW);
-   digitalWrite(OUTPUTLEDG, HIGH);
-   digitalWrite(OUTPUTLEDB, LOW);
-   delay(delayValue);
-   return;
-  }else{
-   digitalWrite(OUTPUTLEDR, LOW);
-   digitalWrite(OUTPUTLEDG, HIGH);
-   digitalWrite(OUTPUTLEDB, HIGH);
-   delay(delayValue);
-   return;
-  }
-  
- 
-}
-void sendText(){
-
+void myEmitter::sendText(){
+  char current;
       while(Serial.available() > 0) {
       String fullText = Serial.readString(); //lee la letra del puerto serial
-          
           for(int j=0; j < fullText.length();j++){
-            currentLetter = fullText.charAt(j);
+            current = fullText.charAt(j);
             bit_Sync();
-            sendLetter(); // Transforma la letra en color
+            sendLetter(current); // Transforma la letra en color
             bit_Sync();
-            }
-
-       
+     }       
    }  
  }
