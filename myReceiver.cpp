@@ -1,8 +1,9 @@
 #include "myReceiver.h"
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_60MS, TCS34725_GAIN_1X);
 boolean out;
+int dataAmount;
 myReceiver::myReceiver(){
-  
+  dataAmount = 0;
 }
 
 
@@ -51,7 +52,8 @@ void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,S
   if(binaryValue.length()==8){
       Serial.println("Entro para el read letter");
       readLetter(binaryValue, valueLedR, valueLedB, valueLedG);
-      binaryValue = ""; 
+      binaryValue = "";
+      dataAmount++;
   }
 }
 
@@ -188,14 +190,13 @@ Serial.println(binaryValue);
      if(binaryValue=="01111110"){Serial.print("~"); compareLetter='~';return;}
 }
 
-
-
-
-boolean myReceiver::firstRead(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue) {
- readColor(valueLedR,valueLedG,valueLedB);
- if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB>=160)){
-    return true;
-  }else{
-    return false;
-    } 
+void XORChecksum16(const byte *data)
+{
+  uint16_t value = 0;
+  for (size_t i = 0; i < dataAmount / 2; i++)
+  {
+    value ^= data[2*i] + (data[2*i+1] << 8);
+  }
+  if(dataAmount%2) value ^= data[dataAmount - 1];
+  Serial.println(~value);
 }

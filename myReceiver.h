@@ -23,5 +23,6 @@ class myReceiver{
   void initializer(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
   boolean firstRead(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
   void beginReceive(float &r, float &g, float &b, String &bin);
+  void XORChecksum16(const byte *data, size_t dataLength);
 };
 #endif
