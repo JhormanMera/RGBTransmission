@@ -36,19 +36,9 @@ void loop() {
 
        String symbol = Serial.readString();
 
-       switch(symbol){
+       if(symbol == "%" || symbol == "&" || symbol == "~"){
         
-       case "%":
-      
-       break;
-       case "&":
-
-
-       break;
-       case "~" :
-       
-       break;
-       }
+        }
        }
    }
    
@@ -57,7 +47,13 @@ void loop() {
 
 void modeChatSender(){
   
+ }
+void modeChatReceibe(){
+  
+  }
+ void modeSendText(){
 }
-void modeChatReceiber(){
+
+void modeReceibeText(){
   
 }
