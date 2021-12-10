@@ -67,7 +67,7 @@ void myReceiver::beginReceive(float &r, float &g, float &b, String &bin){
    
    while(out==true){
        //initializer(&r,&g,&b,&bin);
-       readColor(&r,&g,&b);
+       readColor(r,g,b);
    }
   
       
@@ -154,7 +154,7 @@ Serial.println(binaryValue);
      if (binaryValue=="11011010"){ Serial.print("Ú"); compareLetter='Ú';return;}
      //Símbolos
      if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = true; beginReceive(&r, &b,&g, &bin);}
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = true; beginReceive(r, b,g, bin);}
      if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
      if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
      if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
