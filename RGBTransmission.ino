@@ -1,4 +1,5 @@
 #include <Adafruit_TCS34725.h>
+#include <Separador.h>
 int OUTPUTLEDR = 11;  //Definimos las 3 salidas digitales PWM
 int OUTPUTLEDB = 10;
 int OUTPUTLEDG = 9;
@@ -8,6 +9,8 @@ float valueLedR,valueLedG,valueLedB;
 char compareLetter=' ';
 String binaryValue;
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_614MS, TCS34725_GAIN_1X);
+Separador s;
+
 /*
  * Tomamos ideas de:
  * https://github.com/systembolaget/Physical-computing-sensor-servo-tutorial-6a-Colour-finder-with-ams-TCS34725-and-HD-1900A
@@ -353,4 +356,27 @@ void sendLetter(){
  if(currentLetter=='}'){representation_color("01","11","11","01"); return;}
  if(currentLetter=='|'){representation_color("01","11","11","00"); return;}
  if(currentLetter=='~'){representation_color("01","11","11","10"); return;}
+}
+void sendText(){
+
+      while(Serial.available() > 0) {
+      String fullText = Serial.readString(); //lee la letra del puerto serial
+      for(int i=0; i < 100 ; i++){
+
+      String subText = s.separa(fullText, ' ', i);
+        
+          for(int j=0; j < subText.length();j++){
+
+            currentLetter = subText.charAt(j);
+            bit_Sync();
+            sendLetter(); // Transforma la letra en color
+            bit_Sync();
+            }
+
+       
+       }
+      
+ }
+  
+  
 }
