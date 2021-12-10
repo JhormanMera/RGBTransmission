@@ -12,6 +12,13 @@ void myEmitter::bit_Sync(){
    digitalWrite(OUTPUTLEDB, HIGH);
    delay(delayValue*2);
 }
+void myEmitter::bit_Final(){
+  //Bit Sync
+   digitalWrite(OUTPUTLEDR, HIGH);
+   digitalWrite(OUTPUTLEDG, HIGH);
+   digitalWrite(OUTPUTLEDB, LOW);
+   delay(delayValue*2);
+}
 
 void myEmitter::setupEmitter() {
  Serial.begin(9600);
@@ -61,8 +68,8 @@ void myEmitter::letterToColor(char *currentLetter){
       currentLetter = Serial.read(); //lee la letra del puerto serial
       bit_Sync();
       sendLetter(currentLetter); // Transforma la letra en color
-      bit_Sync();
  }
+ bit_Final();
 }
 
 void myEmitter::sendLetter(char currentLetter){
@@ -187,8 +194,9 @@ void myEmitter::sendText(){
           for(int j=0; j < fullText.length();j++){
             current = fullText.charAt(j);
             bit_Sync();
-            sendLetter(current); // Transforma la letra en color
-            bit_Sync();
-     }       
-   }  
+            sendLetter(current); // Transforma la letra en color            /
+     }
+            
+   }
+   bit_Final();  
  }

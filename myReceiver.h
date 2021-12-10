@@ -11,7 +11,7 @@ class myReceiver{
   char compareLetter;
   String binaryValue;
    void readVectorColor(float &pos1,float &pos2, float &pos3,String &binaryValue);
-   void readLetter(String &binaryValue);
+   void readLetter(String &binaryValue, float &r, float &b, float &g);
   public:
   myReceiver();
   void setupReceiver();

@@ -29,6 +29,7 @@ void myReceiver::readVectorColor(float &pos1,float &pos2, float &pos3,String &bi
   if((pos1<=120)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "01";return;}
   if((pos1<=120)&&(pos2>=160)&&(pos3<=120)){ binaryValue+= "10";return;}
   if((pos1<=120)&&(pos2>=160)&&(pos3>=160)){ binaryValue+= "11";return;}
+  if((pos1>=160)&&(pos2>=160)&&(pos3<=120)){ out = true; return;       }
 }
 
 void myReceiver::setCompareLetter(char compare){
@@ -49,7 +50,7 @@ void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,S
  }
   if(binaryValue.length()==8){
       Serial.println("Entro para el read letter");
-      readLetter(binaryValue);
+      readLetter(binaryValue, valueLedR, valueLedB, valueLedG);
       binaryValue = ""; 
   }
 }
@@ -64,16 +65,18 @@ void myReceiver::initializer(float &valueLedR, float &valueLedG, float &valueLed
 void myReceiver::beginReceive(float &r, float &g, float &b, String &bin){
     
    
-   
-   while(out==true){
-       //initializer(&r,&g,&b,&bin);
-       readColor(r,g,b);
+   while(out==false){
+    
+      initializer(r,g,b,bin);
+
+              
    }
+   
   
       
 }
 
-void myReceiver::readLetter(String &binaryValue, float &r, float &b, float &g, String &bin){
+void myReceiver::readLetter(String &binaryValue, float &r, float &b, float &g){
 Serial.println(binaryValue);
      //Minúsculas
      if (binaryValue=="01100001"){ Serial.print("a"); compareLetter='a';return;}
@@ -154,7 +157,7 @@ Serial.println(binaryValue);
      if (binaryValue=="11011010"){ Serial.print("Ú"); compareLetter='Ú';return;}
      //Símbolos
      if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = true; beginReceive(r, b,g, bin);}
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = false; beginReceive(r, b,g, binaryValue);}
      if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
      if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
      if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
