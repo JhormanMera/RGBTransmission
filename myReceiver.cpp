@@ -80,6 +80,7 @@ void myReceiver::beginReceive(float &r, float &g, float &b, String &bin){
 
 void myReceiver::readLetter(String &binaryValue, float &r, float &b, float &g){
 Serial.println(binaryValue);
+const byte a = 16; 
      //Minúsculas
      if (binaryValue=="01100001"){ Serial.print("a"); compareLetter='a';return;}
      if (binaryValue=="01100010"){ Serial.print("b"); compareLetter='b';return;}
@@ -159,7 +160,7 @@ Serial.println(binaryValue);
      if (binaryValue=="11011010"){ Serial.print("Ú"); compareLetter='Ú';return;}
      //Símbolos
      if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = false; beginReceive(r, b,g, binaryValue);}
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = false; beginReceive(r, b,g, binaryValue); /*XORChecksum16(a);*/ }
      if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
      if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
      if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
