@@ -12,6 +12,7 @@ myReceiver receiver = myReceiver();
  * https://create.arduino.cc/editor/ProfeGarcia/3e920fea-36c8-4fbc-a3a6-783f5ffa1902/preview
  * https://create.arduino.cc/editor/ProfeGarcia/f8bf6115-9715-4345-88f2-9c3cb1ecefca/preview
  * https://www.youtube.com/watch?v=PPsUHX6nVow (Video ficheros)
+ * https://forum.arduino.cc/t/converting-binary-strings-to-bytes-integers/212848/5 (String to number)
  *  
  * Bibliografía de conceptos:
  * https://en.wikipedia.org/wiki/Color_difference
@@ -34,7 +35,4 @@ void loop() {
    char a = ' ';
    receiver.initializer(r,g,b,bin);
    emitter.letterToColor(a);
-  
-   
-   
 }
