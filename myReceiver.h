@@ -7,16 +7,20 @@
 #endif
 #include <Adafruit_TCS34725.h>
 class myReceiver{
+  private:
+  int dataAmount;
+  String binaryValue;
+  Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_60MS, TCS34725_GAIN_1X);
   public:
+  float valueLedR; 
+  float valueLedG; 
+  float valueLedB;
   myReceiver();
   void setupReceiver();
-  void readColor(float &valueLedR, float &valueLedG, float &valueLedB);
-  void readText(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
-  void initializer(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
-  boolean firstRead(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue);
-  void beginReceive(float &r, float &g, float &b, String &bin);
-  void XORChecksum16(const byte *data);
+  void readColor();
+  void readText();
+  void XORChecksum16();
   int stringBinaryToInt(String val);
-  void readVectorColor(float &pos1,float &pos2, float &pos3,String &binaryValue);
+  void readVectorColor();
 };
 #endif

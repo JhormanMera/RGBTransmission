@@ -28,11 +28,11 @@ void setup(){
 }
 
 void loop() {
-   float r = 0.0;
-   float g = 0.0;
-   float b = 0.0;
-   String bin = "";
-   char a = ' ';
-   receiver.initializer(r,g,b,bin);
-   emitter.letterToColor(a);
+    
+}
+void initializer() {
+ receiver.readColor();
+ if(( receiver.valueLedR>=160)&&( receiver.valueLedG>=160)&&( receiver.valueLedB>=160)){
+    receiver.readText();
+  } 
 }
