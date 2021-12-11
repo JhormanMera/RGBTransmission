@@ -29,7 +29,7 @@ void myReceiver::readVectorColor(float &pos1,float &pos2, float &pos3,String &bi
   if((pos1<=120)&&(pos2<=120)&&(pos3>=160)){ binaryValue+= "01";return;}
   if((pos1<=120)&&(pos2>=160)&&(pos3<=120)){ binaryValue+= "10";return;}
   if((pos1<=120)&&(pos2>=160)&&(pos3>=160)){ binaryValue+= "11";return;}
-  if((pos1>=160)&&(pos2>=160)&&(pos3<=120)){ out = true; return;       }
+  if((pos1>=160)&&(pos2>=160)&&(pos3<=120)){out = true; return;}
 }
 
 void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,String &binaryValue){
@@ -42,7 +42,8 @@ void myReceiver::readText(float &valueLedR, float &valueLedG, float &valueLedB,S
   if(binaryValue.length()==8){
       Serial.println("Entro para el read letter");
       Serial.print(binaryValue);
-      
+      int number=stringBinaryToInt(binaryValue);
+      Serial.write(number);
       binaryValue = "";
       dataAmount++;
   }
@@ -75,8 +76,7 @@ int myReceiver::stringBinaryToInt(String val){
 void myReceiver::XORChecksum16(const byte *data)
 {
   uint16_t value = 0;
-  for (size_t i = 0; i < dataAmount / 2; i++)
-  {
+  for (size_t i = 0; i < dataAmount / 2; i++){
     value ^= data[2*i] + (data[2*i+1] << 8);
   }
   if(dataAmount%2) value ^= data[dataAmount - 1];
