@@ -160,7 +160,7 @@ const byte a = 16;
      if (binaryValue=="11011010"){ Serial.print("Ú"); compareLetter='Ú';return;}
      //Símbolos
      if(binaryValue=="00100101"){Serial.print("%"); compareLetter='%';return;}
-     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = false; beginReceive(r, b,g, binaryValue); /*XORChecksum16(a);*/ }
+     if(binaryValue=="00100110"){Serial.print("&"); compareLetter='&'; out = false; beginReceive(r, b,g, binaryValue); XORChecksum16(a); }
      if(binaryValue=="00101010"){Serial.print("*"); compareLetter='*';return;}
      if(binaryValue=="00100000"){Serial.print(" "); compareLetter=' ';return;}
      if(binaryValue=="00101110"){Serial.print("."); compareLetter='.';return;}
@@ -191,7 +191,7 @@ const byte a = 16;
      if(binaryValue=="01111110"){Serial.print("~"); compareLetter='~';return;}
 }
 
-void XORChecksum16(const byte *data)
+void myReceiver::XORChecksum16(const byte *data)
 {
   uint16_t value = 0;
   for (size_t i = 0; i < dataAmount / 2; i++)
