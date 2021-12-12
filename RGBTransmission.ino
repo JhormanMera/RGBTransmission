@@ -23,91 +23,110 @@ myReceiver receiver = myReceiver();
  */
 void setup(){
    Serial.begin(9600);
-  //receiver.setupReceiver();
+  receiver.setupReceiver();
   emitter.setupEmitter();
   emitter.bit_Final();
 }
 
 void loop() {
   char caracter;
-  if(Serial.available()>0){
-  caracter  = Serial.read();
-    switch(caracter){
-    case '%'://MODO CHAT
-        //PROXIMAMENTE SOLO EN CINES
-    break;
-    case '&':// MODO BLOQUE DE INFO
-      caracter = Serial.read();
-      while(caracter!="0"){
-        caracter = Serial.read();
-        if(caracter=='e'){//Es el computador que envía información
-          emitterEcoMode();
-        }else if(caracter=='r'){//Es el computador que recibe
-          receiver.out=false;
-        }
+  while(Serial.available()<=0){
+    if(Serial.available()>0){
+       caracter  = Serial.read();
+      if(caracter=='%'){
+        firstMode(caracter);
+        return;
+      }else if(caracter=='&'){
+        secondMode(caracter);
+        return;
+      }else if(caracter=='*'){
+        thirdMode(caracter);
+        return;
+      }else{
+        Serial.println("NO ES UNA OPCIÓN");
       }
-    break;
-    case '*': //MODO ECO
-      while(Serial.available()<=0){
-        Serial.println("Tercero");
-       caracter = Serial.read();
-        if(caracter=='e'){//Es el computador que envía información
-          
-        }else if(caracter=='r'){//Es el computador Eco
-          receiver.out=false;
-        }
-      }
-    break;
     }
-     Serial.println("SALIÓ DEL SWITCH");
   }
 }
 
-/*
- * if(caracter=='@'){//Es el computador que envía información
-             while(Serial.available()<=0){
-              Serial.println("JI");
-                if(Serial.available()>0){
-                 emitter.sendText(); 
-                }
-              } 
-        }else if(caracter=='#'){//Es el computador recibe información
+void firstMode(char caracter){
+  
+}
+
+void secondMode(char caracter){
+  while(Serial.available()<=0){
+    if(Serial.available()>0){
+      caracter = Serial.read();
+      if(caracter=='e'){//Es el computador que envía información
+          emitter.sendText();
+        }else if(caracter=='r'){//Es el computador que recibe
           receiver.out=false;
           receiverSecondMode();
           receiver.XORChecksum16();
         }
- */
-
- void emitterEcoMode(){
-   while((Serial.available()<=0)){
-    //Serial.println("JI");
-    if(Serial.available()<0){
-      Serial.println("ENTRO AL IF");
-      emitter.sendText(); 
-      
-    }
-  } 
-  Serial.println("Salio del while emittereco");
-}
-void receiverEcoMode(){
-  
-  char current;
-      while(Serial.available()<=0) {
-      String fullText = Serial.readString(); //lee la letra del puerto serial
-          for(int j=0; j < fullText.length();j++){
-            current = fullText.charAt(j);
-            emitter.bit_Sync();
-            emitter.sendLetter(current); // Transforma la letra en color            /
-     }       
-   }
-   emitter.bit_Final();
+     }
+  }  
 }
 
 void receiverSecondMode(){
   while(receiver.out==false){
     receiver.readColor();
     if((receiver.valueLedR>=160)&&( receiver.valueLedG>=160)&&( receiver.valueLedB>=160)){
-      receiver.readText();
+      Serial.write(receiver.readText());
     } 
   }
+}
+
+void thirdMode(char caracter){
+  while(Serial.available()<=0){
+    if(Serial.available()>0){
+      caracter = Serial.read();
+      if(caracter=='e'){//Es el computador que envía información
+          emitterEcoMode();
+        }else if(caracter=='r'){//Es el computador eco
+          receiverEcoMode();
+        }
+     }
+  }  
+}
+
+void emitterEcoMode(){
+  char current;
+    while(Serial.available()<=0){
+      if(Serial.available()>0){
+          String fullText = Serial.readString(); //lee la letra del puerto serial
+          for(int j=0; j < fullText.length();j++){
+            if(j==0){
+              current = fullText.charAt(j);
+              emitter.bit_Sync();
+              emitter.sendLetter(current); // Transforma la letra en color           
+            }else{
+              if(ecoModeVerifyLast()==fullText.charAt(j-1)){
+                Serial.print(fullText.charAt(j-1));  
+                current = fullText.charAt(j);
+                emitter.bit_Sync();
+                emitter.sendLetter(current); // Transforma la letra en color 
+              }else{
+                emitter.bit_Final();
+                Serial.println("ERROR, LA VERIFICACIÓN FALLÓ");
+                return;
+              }
+            }
+          }       
+          emitter.bit_Final();  
+         }
+    }
+}
+
+int ecoModeVerifyLast(){
+   if((receiver.valueLedR>=160)&&( receiver.valueLedG>=160)&&( receiver.valueLedB>=160)){
+      return receiver.readText();
+    } 
+}
+void receiverEcoMode(){
+  char currentbyte;
+  if((receiver.valueLedR>=160)&&( receiver.valueLedG>=160)&&( receiver.valueLedB>=160)){
+      currentbyte=receiver.readText();
+      emitter.sendLetter(currentbyte);
+  } 
 }

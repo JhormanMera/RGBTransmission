@@ -30,7 +30,7 @@ void myReceiver::readVectorColor(){
   if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB<=120)){ out=true;return;}//Bit de Salida
 }
 
-void myReceiver::readText(){
+int myReceiver::readText(){
   while(binaryValue.length()<8){
     readColor();
     readVectorColor();
@@ -38,9 +38,9 @@ void myReceiver::readText(){
  }
   if(binaryValue.length()==8){
       int number=stringBinaryToInt(binaryValue);
-      Serial.write(number);
       binaryValue = "";
       dataAmount++;
+      return number;
   }
 }
 

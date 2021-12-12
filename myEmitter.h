@@ -18,12 +18,10 @@ class myEmitter{
     
   public:
   void sendLetter(char currentLetter);
-  char compare;
   myEmitter(int delayVal);
   void bit_Sync();
   void bit_Final();
   void setupEmitter();
-  void letterToColor(char *currentLetter);
   void sendText();
 };
 #endif

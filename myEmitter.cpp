@@ -62,16 +62,6 @@ void myEmitter::representation_color(String pos1, String pos2, String pos3, Stri
   vector_color(pos4);
 }
 
-
-void myEmitter::letterToColor(char *currentLetter){
- while(Serial.available() > 0) {
-      currentLetter = Serial.read(); //lee la letra del puerto serial
-      bit_Sync();
-      sendLetter(currentLetter); // Transforma la letra en color
- }
- bit_Final();
-}
-
 void myEmitter::sendLetter(char currentLetter){
 // 00 1 (255,0,0)
 // 01 2 (0,0,255)
@@ -189,11 +179,15 @@ void myEmitter::sendLetter(char currentLetter){
 
 void myEmitter::sendText(){
   char current;
-      String fullText = Serial.readString(); //lee la letra del puerto serial
+    while(Serial.available()<=0){
+      if(Serial.available()>0){
+          String fullText = Serial.readString(); //lee la letra del puerto serial
           for(int j=0; j < fullText.length();j++){
             current = fullText.charAt(j);
             bit_Sync();
             sendLetter(current); // Transforma la letra en color            /
-     }       
-   bit_Final();  
+          }       
+          bit_Final();  
+      }
+    }
  }

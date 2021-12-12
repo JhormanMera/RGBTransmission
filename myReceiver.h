@@ -19,7 +19,7 @@ class myReceiver{
   myReceiver();
   void setupReceiver();
   void readColor();
-  void readText();
+  int readText();
   void XORChecksum16();
   int stringBinaryToInt(String val);
   void readVectorColor();
