@@ -12,6 +12,7 @@ class myReceiver{
   String binaryValue;
   Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_60MS, TCS34725_GAIN_1X);
   public:
+  boolean out;
   float valueLedR; 
   float valueLedG; 
   float valueLedB;

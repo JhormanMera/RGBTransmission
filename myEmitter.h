@@ -15,8 +15,9 @@ class myEmitter{
     int delayValue;
     void vector_color(String pos);
     void representation_color(String pos1, String pos2, String pos3, String pos4);
-    void sendLetter(char currentLetter);
+    
   public:
+  void sendLetter(char currentLetter);
   char compare;
   myEmitter(int delayVal);
   void bit_Sync();

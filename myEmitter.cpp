@@ -189,14 +189,11 @@ void myEmitter::sendLetter(char currentLetter){
 
 void myEmitter::sendText(){
   char current;
-      while(Serial.available() > 0) {
       String fullText = Serial.readString(); //lee la letra del puerto serial
           for(int j=0; j < fullText.length();j++){
             current = fullText.charAt(j);
             bit_Sync();
             sendLetter(current); // Transforma la letra en color            /
-     }
-            
-   }
+     }       
    bit_Final();  
  }

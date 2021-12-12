@@ -4,7 +4,6 @@ myReceiver::myReceiver(){
 }
 
 void myReceiver::setupReceiver() {
- Serial.begin(9600);
   if (!tcs.begin())  {//Verificamos la conexión del Sensor de color
    Serial.println("Error al iniciar TCS34725");
    while (!tcs.begin()) delay(1000);
@@ -23,23 +22,21 @@ void myReceiver::readVectorColor(){
 // 01 2 (0,0,255)
 // 10 3 (0,255,0)
 // 11 4 (0,255,255)
+// Salida (255,255,0)
   if((valueLedR>=160)&&(valueLedG<=120)&&(valueLedB<=120)){ binaryValue+= "00";return;}
   if((valueLedR<=120)&&(valueLedG<=120)&&(valueLedB>=160)){ binaryValue+= "01";return;}
   if((valueLedR<=120)&&(valueLedG>=160)&&(valueLedB<=120)){ binaryValue+= "10";return;}
   if((valueLedR<=120)&&(valueLedG>=160)&&(valueLedB>=160)){ binaryValue+= "11";return;}
-  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB<=120)){; return;}//Bit de Salida
+  if((valueLedR>=160)&&(valueLedG>=160)&&(valueLedB<=120)){ out=true;return;}//Bit de Salida
 }
 
 void myReceiver::readText(){
   while(binaryValue.length()<8){
-    Serial.println("En el while READTEXT");
     readColor();
     readVectorColor();
     Serial.println(binaryValue);
  }
   if(binaryValue.length()==8){
-      Serial.println("Entro para el read letter");
-      Serial.print(binaryValue);
       int number=stringBinaryToInt(binaryValue);
       Serial.write(number);
       binaryValue = "";
