@@ -1,17 +1,3 @@
-#include <Adafruit_TCS34725.h>
-boolean modeSelected;
-boolean startPrint;
-float valueLedR; 
-float valueLedG; 
-float valueLedB;
-int PERIOD=120;
-int THRESHOLD= 6000;
-int OUTPUTLED=10;
-int dataAmount;
-bool previous_state;
-bool current_state;
-Adafruit_TCS34725 tcs = Adafruit_TCS34725();
-String text = "Escribí un cuento de cien palabras perfecto. La gente lo leía con avidez, y lo enviaban entusiasmados a sus amigos. Me llamaron para hablar sobre el cuento en la tele, y desde Hollywood querían adaptarlo. Entonces alguien descubrió que había escrito porque, en vez de por qué, así que ahora sobraba una palabra. Pero quitar cualquiera de ellas desmontaba el delicado mecanismo de relojería que había conseguido construir. Finalmente eliminé un artículo, pero ya no es lo mismo. Los críticos literarios me ignoran, han cancelado el programa al que tenía que ir, y Scorsese ya no me coge el teléfono.~";
 /*
  * Tomamos ideas de:
  * https://github.com/systembolaget/Physical-computing-sensor-servo-tutorial-6a-Colour-finder-with-ams-TCS34725-and-HD-1900A
@@ -31,151 +17,113 @@ String text = "Escribí un cuento de cien palabras perfecto. La gente lo leía c
  * https://learn.adafruit.com/calibrating-sensors/two-point-calibration
  * https://www.youtube.com/watch?v=X4RevYjBJCU&t=176s
  */
- 
-void setup(){
+#include <Wire.h>
+#include <Adafruit_TCS34725.h>
+Adafruit_TCS34725 tcs = Adafruit_TCS34725();
+#define THRESHOLD 6000
+#define PERIOD 120
+#define LED_PIN 10
+int dataAmount;
+char* string = "Escribí un cuento de cien palabras perfecto. La gente lo leía con avidez, y lo enviaban entusiasmados a sus amigos. Me llamaron para hablar sobre el cuento en la tele, y desde Hollywood querían adaptarlo. Entonces alguien descubrió que había escrito porque, en vez de por qué, así que ahora sobraba una palabra. Pero quitar cualquiera de ellas desmontaba el delicado mecanismo de relojería que había conseguido construir. Finalmente eliminé un artículo, pero ya no es lo mismo. Los críticos literarios me ignoran, han cancelado el programa al que tenía que ir, y Scorsese ya no me coge el teléfono.";
+int string_length;
+bool previous_state;
+bool current_state;
+bool start;
+char selector;
+
+void setup() {
+  pinMode(LED_PIN, OUTPUT);
+  string_length = strlen(string);
+  digitalWrite(LED_PIN, HIGH);
   Serial.begin(9600);
-  pinMode(OUTPUTLED,OUTPUT); // El pin digital será de salida
-  digitalWrite(OUTPUTLED,HIGH);
-  if (!tcs.begin())  {//Verificamos la conexión del Sensor de color
-  Serial.println("Error al iniciar TCS34725");
-  while (!tcs.begin()) delay(1000);
+  start = false;
+  selector = '*';
+  if (!tcs.begin())
+  {
+    Serial.println("Error al iniciar TCS34725");
+    while (1) delay(1000);
+  }
 }
-}
+
 void loop() {
-  modeSelected=false;
-  char read_;
-  if(Serial.available()>0){
-    read_=Serial.read();
-    if(read_=='&'){
-     secondModeSelecter();
-    }else if(read_=='*'){
-      thirdModeSelecter();
-    }
-  }
-}
-
-void secondModeSelecter(){
-  char read_;
-  while(modeSelected==false){
-    if(Serial.available()>0){
-      read_=Serial.read();
-      if(read_=='e'){
-        delay(15);
-        secondModeSend();
-        modeSelected=true;
-      }else if(read_=='r'){
-        modeSelected=true;
-        startPrint=true;
-        printValueSecondMode();
-       XORChecksum16();
+  if(selector == '*'){
+    Serial.println("Entro a modo");
+    while(selector == '*'){
+      if(Serial.available() > 0){
+        selector = Serial.read();
       }
     }
+    Serial.println(selector);
   }
-}
 
-void secondModeSend(){
-   for(int i = 0; i < text.length(); i ++){
-      colorOutput(codeLetter(text.charAt(i)));
+   if(selector=='r'){
+      readInfo();
+      XORChecksum16();
+      
+    }else{ 
+      writeInfo(); 
     }
-    delay(15);
+  
 }
-
-void printValueSecondMode(){
-  String value;
-  while(startPrint){
-    if(value == '~'){
-      startPrint = !startPrint;
-    }
-    if(startPrint){
-        value=stringBinaryToInt(colorToBinary());
-      Serial.print(value); 
-    }
-  }        
-}
-
-void thirdModeSelecter(){
-  char read_;
-  while(modeSelected==false){
-    if(Serial.available()>0){
-      read_=Serial.read();
-      if(read_=='e'){
-        delay(15);
-        thirdModeSend();
-        modeSelected=true;
-      }else if(read_=='r'){
-        modeSelected=true;
-        thirdModeReceive();
-      }
-    }
+void readInfo()
+{
+  current_state = getColor();
+  if(!current_state && previous_state)
+  {
+    Serial.print(colorToBinary());
   }
+  previous_state = current_state;
 }
 
-  void thirdModeSend(){
-    String value;
-    for(int i = 0; i < text.length(); i ++){
-        colorOutput(codeLetter(text.charAt(i)));
-        delay(20);
-        value=stringBinaryToInt(colorToBinary());
-         if(i==0){}else if(value!=text[i-1]){
-            Serial.println("Error al recibir ECO");
-            return;
-         }
-      }
-       delay(15);
-    }
-
-void thirdModeReceive(){
-  String value;
-  while(startPrint){
-    if(value == '~'){
-      startPrint = !startPrint;
-    }
-    if(startPrint){
-        value=stringBinaryToInt(colorToBinary());
-        delay(15);
-       colorOutput(value);
-      } 
-    }
-  }   
-
-  void colorOutput(String letter){
-  digitalWrite(OUTPUTLED, LOW);
+void writeInfo()
+{
+  for(int i = 0; i < string_length; i ++)
+  {
+    send_byte(string[i]);
+  }
   delay(PERIOD);
-  for(int i =0;i<8;i++){
-    if(letter[i]=="1"){
-     digitalWrite(OUTPUTLED, HIGH);
-    }else{
-     digitalWrite(OUTPUTLED, LOW);
-    }
+}
+bool getColor()
+{
+  uint16_t r, g, b, c, lux;
+  tcs.getRawData(&r, &g, &b, &c);
+  lux = tcs.calculateLux(r, g, b);
+  //Serial.println(lux);
+  return lux > THRESHOLD ? true : false;
+}
+
+char colorToBinary(){
+  char ret = "";
+  delay(PERIOD*1.5);
+  for(int i = 0; i < 8; i++)
+  {
+   if(getColor()==true){
+      ret=ret+'1';
+   }else{
+      ret=ret+'0';
+   }
+   delay(PERIOD);
+  }
+  dataAmount++;
+  return ret;
+}
+
+void send_byte(char my_byte)
+{
+  digitalWrite(LED_PIN, LOW);
+  delay(PERIOD);
+
+  //transmission of bits
+  for(int i = 0; i < 8; i++)
+  {
+    digitalWrite(LED_PIN, (my_byte&(0x01 << i))!=0 );
     delay(PERIOD);
-  } 
-  digitalWrite(OUTPUTLED, HIGH);
+  }
+
+  digitalWrite(LED_PIN, HIGH);
   delay(PERIOD);
-}
 
-String codeLetter(char currentLetter){
- int convertido = int(currentLetter);
-  String binary ="";
-  String stringOne =  String(convertido, BIN);
-  if(stringOne.length()==7){
-    binary=String("0"+stringOne);
-  }else if(stringOne.length()==6){
-    binary=String("00"+stringOne);
-  }
-  return binary;
 }
-
-int stringBinaryToInt(String val){ 
-    char s[10];
-    val.toCharArray(s,10);
-    int value = 0;
-   for (int i=0; i< strlen(s); i++){  // for every character in the string  strlen(s) returns the length of a char array
-    value *= 2; // double the result so far
-  if (s[i] == '1') value++;  //add 1 if needed
-  }
-  return value;
-}
-
 void XORChecksum16(){
   const byte* data = 16;
   uint16_t value = 0;
@@ -185,27 +133,4 @@ void XORChecksum16(){
   if(dataAmount%2) value ^= data[dataAmount - 1];
   Serial.println(~value);
   dataAmount=0;
-}
-
-bool getColor(){
-  uint16_t red, green, blue, c, luxes;
-  tcs.getRawData(&red, &green, &blue, &c);
-  luxes = tcs.calculateLux(red, green, blue);
-  return luxes > THRESHOLD ? true : false;
-}
-
-String colorToBinary(){
-  String ret = "";
-  delay(PERIOD*1.5);
-  for(int i = 0; i < 8; i++)
-  {
-   if(getColor()==true){
-      ret.concat("1");
-   }else{
-      ret.concat("0");
-   }
-   delay(PERIOD);
-  }
-  dataAmount++;
-  return ret;
 }

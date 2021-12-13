@@ -31,7 +31,6 @@ bool get_ldr()
   uint16_t r, g, b, c, lux;
   tcs.getRawData(&r, &g, &b, &c);
   lux = tcs.calculateLux(r, g, b);
-  Serial.println(lux);
   return lux > THRESHOLD ? true : false;
 }
 char get_byte()

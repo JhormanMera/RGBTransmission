@@ -9,7 +9,6 @@ void setup()
 {
   pinMode(LED_PIN, OUTPUT);
   string_length = strlen(string);
-  digitalWrite(LED_PIN,HIGH);
 }
 
 void loop() 
