@@ -22,8 +22,8 @@
 #include "ColorConverterLib.h"
 Adafruit_TCS34725 tcs = Adafruit_TCS34725();
 
-#define THRESHOLD 6000
-#define PERIOD 120
+#define MINVALUE 6000
+#define DELAY 120
 #define OUTPUTLED 10
 
 char* text = "Escribí %Escribí un cuento de cien palabras perfecto. La gente lo leía con avidez, y lo enviaban entusiasmados a sus amigos. Me llamaron para hablar sobre el cuento en la tele, y desde Hollywood querían adaptarlo. Entonces alguien descubrió que había escrito porque, en vez de por qué, así que ahora sobraba una palabra. Pero quitar cualquiera de ellas desmontaba el delicado mecanismo de relojería que había conseguido construir. Finalmente eliminé un artículo, pero ya no es lo mismo. Los críticos literarios me ignoran, han cancelado el programa al que tenía que ir, y Scorsese ya no me coge el teléfono.%";
@@ -51,22 +51,22 @@ void setup() {
 
 void loop() {
   if(selector == '*'){
-    Serial.println("Entro a modo");
     while(selector == '*'){
       if(Serial.available() > 0){
         selector = Serial.read();
       }
     }
-    Serial.println(selector);
   }
  
   if(selector=='r'){
       readInfoBlock();
-      XORChecksum16();
     }else{ 
       writeInfoBlock(); 
     }
- 
+    if(selector=='r'){
+      XORChecksum16();
+    }
+    selector='*';
 }
 void readInfoBlock()
 {
@@ -83,7 +83,7 @@ void writeInfoBlock()
   {
     transmitteByte(text[i]);
   }
-  delay(PERIOD);
+  delay(DELAY);
   reading = true;
 }
 bool getColor()
@@ -92,16 +92,16 @@ bool getColor()
   tcs.getRawData(&r, &g, &b, &c);
   lux = tcs.calculateLux(r, g, b);
   //Serial.println(lux);
-  return lux > THRESHOLD ? true : false;
+  return lux > MINVALUE ? true : false;
 }
 char receiveByte()
 {
   char ret = 0;
-  delay(PERIOD*1.5);
+  delay(DELAY*1.5);
   for(int i = 0; i < 8; i++)
   {
    ret = ret | getColor() << i; 
-   delay(PERIOD);
+   delay(DELAY);
   }
   return ret;
 }
@@ -112,23 +112,22 @@ void printTextByte(char my_byte){
   }
   if(my_byte == '%'){
     start = !start;
-    Serial.println("Entra a imprimir");
   }
 }
 
 void transmitteByte(char currentByte){
   digitalWrite(OUTPUTLED, LOW);
-  delay(PERIOD);
+  delay(DELAY);
   for(int i = 0; i < 8; i++) {
     colorByte(currentByte, i);
   }
   digitalWrite(OUTPUTLED, HIGH);
-  delay(PERIOD);
+  delay(DELAY);
 }
 
 void colorByte(char currentByte, int i){
     digitalWrite(OUTPUTLED, (currentByte&(0x01 << i))!=0 );
-    delay(PERIOD);
+    delay(DELAY);
 }
 
 void XORChecksum16(){
