@@ -21,6 +21,7 @@ String text = "Escribí un cuento de cien palabras perfecto. La gente lo leía c
  * https://learn.adafruit.com/calibrating-sensors/two-point-calibration
  * https://www.youtube.com/watch?v=X4RevYjBJCU&t=176s
  */
+ 
 void setup(){
   Serial.begin(9600);
   //receiver.setupReceiver();
@@ -34,7 +35,7 @@ void loop() {
     if(read_=='&'){
      secondModeSelecter();
     }else if(read_=='*'){
-      
+      thirdModeSelecter();
     }
   }
 }
@@ -49,14 +50,15 @@ void secondModeSelecter(){
         secondModeSend();
         modeSelected=true;
       }else if(read_=='r'){
+        modeSelected=true;
         receiver.startPrint=true;
         printValueSecondMode();
         receiver.XORChecksum16();
-        
       }
     }
   }
 }
+
 void secondModeSend(){
    for(int i = 0; i < text.length(); i ++){
       emitter.colorOutput(emitter.codeLetter(text.charAt(i)));
@@ -76,3 +78,48 @@ void printValueSecondMode(){
     }
   }        
 }
+
+void thirdModeSelecter(){
+  char read_;
+  while(modeSelected==false){
+    if(Serial.available()>0){
+      read_=Serial.read();
+      if(read_=='e'){
+        delay(15);
+        thirdModeSend();
+        modeSelected=true;
+      }else if(read_=='r'){
+        modeSelected=true;
+        thirdModeReceive();
+      }
+    }
+  }
+}
+
+  void thirdModeSend(){
+    String value;
+    for(int i = 0; i < text.length(); i ++){
+        emitter.colorOutput(emitter.codeLetter(text.charAt(i)));
+        delay(20);
+        value=receiver.stringBinaryToInt(receiver.colorToBinary());
+         if(i==0){}else if(value!=text[i-1]){
+            Serial.println("Error al recibir ECO");
+            return;
+         }
+      }
+       delay(15);
+    }
+
+void thirdModeReceive(){
+  String value;
+  while(receiver.startPrint){
+    if(value == '~'){
+      receiver.startPrint = !receiver.startPrint;
+    }
+    if(receiver.startPrint){
+        value=receiver.stringBinaryToInt(receiver.colorToBinary());
+        delay(15);
+        emitter.colorOutput(value);
+      } 
+    }
+  }     
