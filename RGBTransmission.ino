@@ -18,23 +18,27 @@
  * https://www.youtube.com/watch?v=X4RevYjBJCU&t=176s
  */
 #include <Wire.h>
-#include <Adafruit_TCS34725.h>
+#include "Adafruit_TCS34725.h"
+#include "ColorConverterLib.h"
 Adafruit_TCS34725 tcs = Adafruit_TCS34725();
+
 #define THRESHOLD 6000
 #define PERIOD 120
-#define LED_PIN 10
+#define OUTPUTLED 10
+
+char* text = "Escribí %Escribí un cuento de cien palabras perfecto. La gente lo leía con avidez, y lo enviaban entusiasmados a sus amigos. Me llamaron para hablar sobre el cuento en la tele, y desde Hollywood querían adaptarlo. Entonces alguien descubrió que había escrito porque, en vez de por qué, así que ahora sobraba una palabra. Pero quitar cualquiera de ellas desmontaba el delicado mecanismo de relojería que había conseguido construir. Finalmente eliminé un artículo, pero ya no es lo mismo. Los críticos literarios me ignoran, han cancelado el programa al que tenía que ir, y Scorsese ya no me coge el teléfono.%";
+int textLength;
 int dataAmount;
-char* string = "Escribí un cuento de cien palabras perfecto. La gente lo leía con avidez, y lo enviaban entusiasmados a sus amigos. Me llamaron para hablar sobre el cuento en la tele, y desde Hollywood querían adaptarlo. Entonces alguien descubrió que había escrito porque, en vez de por qué, así que ahora sobraba una palabra. Pero quitar cualquiera de ellas desmontaba el delicado mecanismo de relojería que había conseguido construir. Finalmente eliminé un artículo, pero ya no es lo mismo. Los críticos literarios me ignoran, han cancelado el programa al que tenía que ir, y Scorsese ya no me coge el teléfono.";
-int string_length;
 bool previous_state;
 bool current_state;
 bool start;
+bool reading;
 char selector;
 
 void setup() {
-  pinMode(LED_PIN, OUTPUT);
-  string_length = strlen(string);
-  digitalWrite(LED_PIN, HIGH);
+  pinMode(OUTPUTLED, OUTPUT);
+  textLength = strlen(text);
+  digitalWrite(OUTPUTLED, HIGH);
   Serial.begin(9600);
   start = false;
   selector = '*';
@@ -55,33 +59,32 @@ void loop() {
     }
     Serial.println(selector);
   }
-
-   if(selector=='r'){
-      readInfo();
+ 
+  if(selector=='r'){
+      readInfoBlock();
       XORChecksum16();
-      
     }else{ 
-      writeInfo(); 
+      writeInfoBlock(); 
     }
-  
+ 
 }
-void readInfo()
+void readInfoBlock()
 {
   current_state = getColor();
   if(!current_state && previous_state)
   {
-    Serial.print(colorToBinary());
+    printTextByte(receiveByte());
   }
   previous_state = current_state;
 }
-
-void writeInfo()
+void writeInfoBlock()
 {
-  for(int i = 0; i < string_length; i ++)
+  for(int i = 0; i < textLength; i ++)
   {
-    send_byte(string[i]);
+    transmitteByte(text[i]);
   }
   delay(PERIOD);
+  reading = true;
 }
 bool getColor()
 {
@@ -91,39 +94,43 @@ bool getColor()
   //Serial.println(lux);
   return lux > THRESHOLD ? true : false;
 }
-
-char colorToBinary(){
-  char ret = "";
+char receiveByte()
+{
+  char ret = 0;
   delay(PERIOD*1.5);
   for(int i = 0; i < 8; i++)
   {
-   if(getColor()==true){
-      ret=ret+'1';
-   }else{
-      ret=ret+'0';
-   }
+   ret = ret | getColor() << i; 
    delay(PERIOD);
   }
-  dataAmount++;
   return ret;
 }
-
-void send_byte(char my_byte)
-{
-  digitalWrite(LED_PIN, LOW);
-  delay(PERIOD);
-
-  //transmission of bits
-  for(int i = 0; i < 8; i++)
-  {
-    digitalWrite(LED_PIN, (my_byte&(0x01 << i))!=0 );
-    delay(PERIOD);
+void printTextByte(char my_byte){
+  if(start){
+   Serial.print(my_byte);
+   dataAmount++;
   }
-
-  digitalWrite(LED_PIN, HIGH);
-  delay(PERIOD);
-
+  if(my_byte == '%'){
+    start = !start;
+    Serial.println("Entra a imprimir");
+  }
 }
+
+void transmitteByte(char currentByte){
+  digitalWrite(OUTPUTLED, LOW);
+  delay(PERIOD);
+  for(int i = 0; i < 8; i++) {
+    colorByte(currentByte, i);
+  }
+  digitalWrite(OUTPUTLED, HIGH);
+  delay(PERIOD);
+}
+
+void colorByte(char currentByte, int i){
+    digitalWrite(OUTPUTLED, (currentByte&(0x01 << i))!=0 );
+    delay(PERIOD);
+}
+
 void XORChecksum16(){
   const byte* data = 16;
   uint16_t value = 0;
