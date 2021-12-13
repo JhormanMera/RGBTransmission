@@ -7,8 +7,6 @@ void myEmitter::setupEmitter() {
  digitalWrite(OUTPUTLED,HIGH);
 }
 
-
-
 void myEmitter::colorOutput(String letter){
   digitalWrite(OUTPUTLED, LOW);
   delay(PERIOD);
