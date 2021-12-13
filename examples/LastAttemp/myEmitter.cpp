@@ -21,7 +21,6 @@ void myEmitter::bit_Final(){
 }
 
 void myEmitter::setupEmitter() {
- Serial.begin(9600);
  pinMode(OUTPUTLEDR,OUTPUT); // los pins digitales serán de salida
  pinMode(OUTPUTLEDG,OUTPUT);
  pinMode(OUTPUTLEDB,OUTPUT);
